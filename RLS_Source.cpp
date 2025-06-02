@@ -12,6 +12,6 @@ void TMissile::move(double dt){
     y = y0 + (v + a * (dt)) * std::sin(k) * dt; 
 }
 
-void TRls::peleng(int t0, int tk, int deltat){
-    for (; t0 <= tk; t0 += deltat)
+void TRls::peleng(int t0, int tk) {
+    for (; t0 <= tk; t0 += delta_t);
 }
