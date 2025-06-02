@@ -1,5 +1,7 @@
 #include <iostream>
 
+const float delta_t = 0.1;
+
 enum class etype {
     Aircraft,
     Missile
