@@ -34,12 +34,12 @@ sorted_times = sorted(frames.keys())
 
 fig, ax = plt.subplots()
 scat = ax.scatter([], [], s=100, c=[], cmap='tab10')
-ax.set_xlim(-60, 60)
-ax.set_ylim(-60, 60)
+ax.set_xlim(-600, 600)
+ax.set_ylim(-600, 600)
 ax.set_aspect('equal', adjustable='box')
 ax.set_title("Target Animation")
 ax.grid(True)
-circle = plt.Circle((0, 0), 50, color='gray', fill=False, linestyle='--')
+circle = plt.Circle((0, 0), 500, color='gray', fill=False, linestyle='--')
 ax.add_patch(circle)
 
 colors = {}

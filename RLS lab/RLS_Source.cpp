@@ -104,7 +104,7 @@ void my_init_plane() {
 
 void random_init_plane() {
 	srand(time(0));
-	int n = 3 + rand() % 48; // Случайное число целей от 3 до 50
+	int n = 10 + rand() % 998; // Случайное число целей от 3 до 150
 	double* x0 = new double[n];
 	double* y0 = new double[n];
 	double* v = new double[n];
@@ -113,9 +113,9 @@ void random_init_plane() {
 	double* a = new double[n];
 	std::cout << "Количество целей: " << n << std::endl;
 	for (int i = 0; i < n; ++i) {
-		x0[i] = rand() % 100 - 50; // Случайные координаты X от -50 до 50
-		y0[i] = rand() % 100 - 50; // Случайные координаты Y от -50 до 50
-		v[i] = 1 + rand() % 100 * 0.1; // Случайная скорость от 1 до 10 м/с
+		x0[i] = rand() % 1000 - 500; // Случайные координаты X от -500 до 500
+		y0[i] = rand() % 1000 - 500; // Случайные координаты Y от -500 до 500
+		v[i] = 1 + rand() % 10 * 0.1; // Случайная скорость от 1 до 10 м/с
 		k[i] = rand() % 360; // Курс от 0 до 360 градусов
 		types[i] = static_cast<etype>(rand() % 2); // Случайный тип цели
 		if (types[i] == etype::Missile) (a[i] = -10 + rand() % 21); // Ускорение для ракет 
@@ -125,7 +125,7 @@ void random_init_plane() {
 			<< " Ускорение: " << a[i] << std::endl;
 	}
 
-	TRls rls(0, 0, 50); // Создание объекта РЛС
+	TRls rls(0, 0, 500); // Создание объекта РЛС
 	rls.TInit(n, x0, y0, v, k, types, a); // Инициализация целей
 	rls.peleng(0, 100); // Вычисление пеленга на цели
 
