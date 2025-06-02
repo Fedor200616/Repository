@@ -8,8 +8,8 @@ const double delta_t = 0.1;
 
 
 enum class etype {
-    Aircraft,
-    Missile
+    Aircraft = 0,
+    Missile =1
 };
 
 class TTarget { // Класс-цель (Target) - базовый класс для всех целей
@@ -59,4 +59,6 @@ public:
 	virtual void peleng(double t0, double tk); // Метод для вычисления пеленга на цели
 };
 
-void my_init_plane(); // Функция для инициализации самолета
+void my_init_plane(); // Функция для инициализации целей вручную
+
+void random_init_plane(); // Функция для случайной инициализации целей

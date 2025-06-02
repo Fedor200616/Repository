@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
+#include <ctime>
 #include "RLS_head.h"
 
 
@@ -44,7 +46,7 @@ void TRls::peleng(double t0, double tk) {
 			<< "Distance" << '\t' << "Bearing" << std::endl;
     for (double ti = t0; ti <= tk; ti += delta_t){
 		dt = (ti - t0); // Изменение времени относительно начального моментаы
-		fout << "===================================" << std::endl;
+		fout << "===========================================" << std::endl;
 		for (int i = 0; i < target_n; i++) {
 			target[i]->move(dt);
 
@@ -91,6 +93,41 @@ void my_init_plane() {
 	
 	rls.TInit(n, x0, y0, v, k, types, a); // Инициализация целей
 	rls.peleng(0, 10); // Вычисление пеленга на цели
+
+	// Освобождение памяти
+	delete[] x0;
+	delete[] y0;
+	delete[] v;
+	delete[] k;
+	delete[] types;
+}
+
+void random_init_plane() {
+	srand(time(0));
+	int n = 3 + rand() % 48; // Случайное число целей от 3 до 50
+	double* x0 = new double[n];
+	double* y0 = new double[n];
+	double* v = new double[n];
+	double* k = new double[n];
+	etype* types = new etype[n];
+	double* a = new double[n];
+	std::cout << "Количество целей: " << n << std::endl;
+	for (int i = 0; i < n; ++i) {
+		x0[i] = rand() % 100 - 50; // Случайные координаты X от -50 до 50
+		y0[i] = rand() % 100 - 50; // Случайные координаты Y от -50 до 50
+		v[i] = 1 + rand() % 100 * 0.1; // Случайная скорость от 1 до 10 м/с
+		k[i] = rand() % 360; // Курс от 0 до 360 градусов
+		types[i] = static_cast<etype>(rand() % 2); // Случайный тип цели
+		if (types[i] == etype::Missile) (a[i] = -10 + rand() % 21); // Ускорение для ракет 
+		else a[i] = 0;
+		std::cout << i + 1 << "\tX: " << x0[i] << " Y: " << y0[i] << " V: " << v[i] << " Курс: " << k[i] << " Type: "
+			<< (types[i] == etype::Aircraft ? "Aircraft" : "Missile")
+			<< " Ускорение: " << a[i] << std::endl;
+	}
+
+	TRls rls(0, 0, 50); // Создание объекта РЛС
+	rls.TInit(n, x0, y0, v, k, types, a); // Инициализация целей
+	rls.peleng(0, 100); // Вычисление пеленга на цели
 
 	// Освобождение памяти
 	delete[] x0;
