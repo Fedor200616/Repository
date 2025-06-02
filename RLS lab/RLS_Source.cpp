@@ -60,9 +60,9 @@ void TRls::peleng(double t0, double tk) {
 				if (bearing < 0.0) bearing += 360.0;
 
 				// Запись данных в файл
-                fout << ti << '\t'
+				fout << ti << '\t'
 					<< i << '\t'
-					<< distance_target << '\t'
+					<< distance_target << '\t' << '\t'
 					<< bearing << std::endl;
             }
 		}
