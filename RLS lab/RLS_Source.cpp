@@ -25,11 +25,11 @@ void TRls::peleng(double t0, double tk, double dt) {
                 double bearing = std::atan2(target[i]->x - x, target[i]->y - y) * 180.0 / PI;
                 if (bearing < 0) bearing += 360.0;
 
-                // Âûâîä â ôàéë äëÿ îáíàðóæåííûõ öåëåé D, Â
-                fout << "Âðåìÿ: " << ti << '\t'
-					<< " Öåëü: " << i << '\t'
-					<< "Äèñòàíöèÿ: " << distance_target << '\t'
-					<< " Ïåëåíã: " << bearing << std::endl;
+				// Запись данных в файл
+                fout << "Время: " << ti << '\t'
+					<< "Цель: " << i << '\t'
+					<< "Дистанция: " << distance_target << '\t'
+					<< "Пеленг: " << bearing << std::endl;
             }
 		}
     }
