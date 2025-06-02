@@ -37,6 +37,7 @@ public:
 };
 
 class TRls {
+public:
     double x, y, z;
     double d;
     TTarget **target;
