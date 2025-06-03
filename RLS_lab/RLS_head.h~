@@ -14,15 +14,15 @@ enum class etype {
 
 class TTarget { // Класс-цель (Target) - базовый класс для всех целей
 public:
-	double x0, y0; // Начальные координаты
-	double v; // Скорость 
+    double x0, y0; // Начальные координаты
+    double v; // Скорость 
     double k; // Курс
-	etype type; // Тип цели
-	double x, y; // Координаты в текущий момент времени
+    etype type; // Тип цели
+    double x, y; // Координаты в текущий момент времени
     TTarget(double ax0, double ay0, double av, double ak, etype atype, double ax, double ay)
 	: x0(ax0), y0(ay0), v(av), k(ak), type(atype), x(ax), y(ay){};
     TTarget(){};
-    ~TTarget(){};
+    virtual ~TTarget() = default;
     virtual void move(double dt) = 0;
 };
 

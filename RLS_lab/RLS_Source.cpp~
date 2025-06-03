@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <iomanip>
 #include "RLS_head.h"
 
 
@@ -60,9 +61,9 @@ void TRls::peleng(double t0, double tk) {
 				if (bearing < 0.0) bearing += 360.0;
 
 				// Запись данных в файл
-				fout << ti << '\t'
+				fout << std::setprecision(4) << ti << '\t'
 					<< i << '\t'
-					<< distance_target << '\t' << '\t'
+					<< distance_target << '\t'
 					<< bearing << std::endl;
             }
 		}
