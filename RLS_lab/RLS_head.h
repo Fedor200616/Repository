@@ -9,7 +9,7 @@ const double delta_t = 0.01;
 
 enum class etype {
     Aircraft = 0,
-    Missile =1
+    Missile = 1
 };
 
 class TTarget { // Класс-цель (Target) - базовый класс для всех целей
@@ -29,7 +29,7 @@ public:
 class TAircraft : public TTarget { // Класс-цель самолет
 public:
     TAircraft(double ax0, double ay0, double av, double ak, etype atype, double ax, double ay)
-	: TTarget(ax0, ay0, av, ak, atype, ax, ay){};
+	: TTarget(ax0, ay0, av, ak, etype::Aircraft, ax, ay){};
     void move(double dt);
 };
 
@@ -37,7 +37,7 @@ class TMissile : public TTarget { // Класс-цель ракета
 public:
 	double a; // Ускорение
     TMissile(double ax0, double ay0, double av, double ak, etype atype, double ax, double ay, double aa)
-	: TTarget(ax0, ay0, av, ak, atype, ax, ay), a(aa){};
+	: TTarget(ax0, ay0, av, ak, etype::Missile, ax, ay), a(aa){};
 	void move(double dt); 
 };
 
