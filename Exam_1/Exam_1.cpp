@@ -1,0 +1,14 @@
+﻿#include <iostream>
+
+int main() {
+	int* ptr = new int;
+	*ptr = 5;
+	delete ptr;
+	if (ptr) {
+		std::cout << "Pointer is not null after delete." << std::endl;
+	}
+	else {
+		std::cout << "Pointer is null after delete." << std::endl;
+	}
+	return 0;
+}
