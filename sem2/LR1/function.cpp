@@ -2,57 +2,94 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+//#include <cstdlib>
+
+const int char_length = 255;
 
 //Проверь комментарии
 
-void choose_enter_type();
+void clearScreen();
+void clear_n(char *str);
+
+void menu();
 void name();
+int secname_check(std::string str); //* @secname_check Выводится 1 при правильности ввода, 2 при неправильном вводе
 
 int main() {
-    name();  
-    ;;choose_enter_type();
+    clearScreen();  
+    //name();  
+    menu();
     return 0;
 }
 
-void choose_enter_type() {
+void clearScreen(){
+    printf("\033[2J\033[3H");
+    //while (getchar() != '\n');
+}
+
+void clear_n(char* str){
+    str[strcspn(str, "\n")] = '\0';
+}
+
+void menu() {
     int enter_num;
     printf("Выберите тип ввода: \n"
-      "1) Ввод Фамилии студента; \n"
-      "2) Ввод пароля студента; \n"
-      "3) Закрыть программу.\n");    //В будущем сделать проверку ошибок
-    enter_num = 1;
-    //enter_num = getchar();
+           "1) Ввод Фамилии студента; \n"
+           "2) Ввод пароля студента; \n"
+           "0) Закрыть программу.\n"); // В будущем сделать проверку ошибок
+    fflush(stdin);
+    scanf("%i", &enter_num);
+    clearScreen();    
     switch (enter_num) {
     case 1:
-      puts("Вызов функции Name");
-      name();      
-      break;      
+        //puts("Вызов функции Name");
+        name();      
+        break;      
     case 2:
-      puts("Вызов функции Password");
-      break;      
-    case 3:
-      puts("Вызов функции Endprogramm");
-      break;
+        puts("Вызов функции Password");
+        break;      
+    case 0:
+        puts("Вызов функции Endprogramm");      
+        break;
     }
-    
-    printf("%i", enter_num);
+   
 }
 
 void name() {
-  bool k = 0; // Значение правильности ввода фамилии
-  char* secname = "Porno58";
-  //char* secname = new char[255];
-  std::string s_secname;  
-    while (k == 0) {
-      printf("Введите фамилию студента или 0 для выхода в меню \n");
-      // if (fgets(secname, 255, stdin) != NULL) {
-      //secname = "Porno58";
-      if(secname != NULL){
-        puts(secname);
-        k = 1;        
-      }
-      else{
-          choose_enter_type();//Вообще нужно проверять на возможные ошибки
-      }      
+    bool k = 0; // Значение правильности ввода фамилии
+    char secname[255];
+    std::string s_secname;
+    while (!k) {
+        printf("Введите фамилию студента или 0 для выхода в меню \n");
+        fgets(secname, char_length, stdin);
+        clear_n(secname);
+        //secname[strcspn(secname, "\n")] = '\0';        
+        if (secname[0] != '\0') {
+            s_secname = secname;
+            switch (secname_check(s_secname)) {
+            case 0:
+                clearScreen();              
+                menu();
+                break;              
+            case 1:
+                // puts(s_secname.c_str());
+                clearScreen();
+                std::cout << s_secname << "\n";
+                break;                
+            }
+        }            
+        else {
+            clearScreen();
+            k = 0;
+            //choose_enter_type();//Вообще нужно проверять на возможные ошибки
+        }
     }
+}
+
+int secname_check(std::string str){
+    if (str == "0" || str == "o" || str == "о" || str == "О" || str == "O"){
+        return 0;
+    }
+    else{return 1;}    
+    return 1;    
 }
