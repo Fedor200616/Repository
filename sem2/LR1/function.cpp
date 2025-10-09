@@ -174,13 +174,14 @@ std::string name() {
                     printf("\033[1;31m%s\n\033[0m"
                            "Фамилия должна начинаться на заглавную букву,\n",
                            secname.c_str());
-                    k = 0;           
+                    k = 0;  
+                    std::cout << i << '\t';
                 } else if (!(check_char(secname[i]) || check_ref(secname[i], '-') || check_ref(secname[i], '_') || check_ref(secname[i], '\''))) {
                     printf("\033[1;31m%s\n\033[0m"
                            "Допустимы только маленькие буквы и знаки -, _, ' \n"
                            , secname.c_str());
                     k = 0;
-                    break;
+                    std::cout << i << '\t';
                 } else {
                     k = 1;
                     return secname;
