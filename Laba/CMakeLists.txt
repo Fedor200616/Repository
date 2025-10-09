@@ -12,7 +12,7 @@ endif()
 project ("Laba")
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (Laba "Laba.cpp" "Laba.h")
+add_executable (Laba "Laba.cpp" "Laba.h" "utility.cpp" "function.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Laba PROPERTY CXX_STANDARD 20)

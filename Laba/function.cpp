@@ -4,67 +4,9 @@
 #include <stdio.h>
 #include <string>
 #include <filesystem>
-//#include <cstdlib>
-
-const int char_length = 255;
+#include "Laba.h"
 
 // Проверь комментарии
-
-bool check_first_char(char c); // Выводит 1 если буква заглавная, или ноль
-bool check_char(char c); // Ввыводит 1 если символ - маленькая буква
-bool check_is_int(char c); // Выводит 1 если символ - число
-bool check_ref(char c,char ref); // Проверяет 1 аргумент со 2 (референс) и выводит 1 при совпадении
-
-void clearScreen();
-void clear_n(char *str);
-
-void secname();
-void menu();
-std::string name();
-int secname_check(std::string str); //* @secname_check Выводится 1 при правильности ввода, 2 при неправильном вводе
-
-int main() {
-  // clearScreen();
-  // menu();
-  std::string name1 = name();
-  std::cout << name1;
-    return 0;
-}
-
-bool check_first_char(char c) {
-  if (c >= 'A' && c <= 'Z')
-    return 1;
-  else
-    return 0;
-}
-
-bool check_char(char c) {
-  if (c >= 'a' && c <= 'z')
-    return 1;
-  else
-    return 0;
-}
-
-bool check_is_int(char c) {
-  if (c >= '0' && c <= '9')
-    return 1;
-  else
-    return 0;  
-}
-
-bool check_ref(char c, char ref){
-  if (c == ref)
-    return 1;
-  else
-    return 0;  
-}
-
-void clearScreen() {
-    printf("\033[2J\033[3H");
-    //while (getchar() != '\n');
-}
-
-void clear_n(char *str) { str[strcspn(str, "\n")] = '\0'; }
 
 bool filename_check(std::string* name) {
     int size = name->length();
@@ -169,32 +111,27 @@ std::string name() {
         clearScreen();
         if (c_secname[0] != '\0') {
             secname = c_secname;
+            k = 1;
             for(int i = 0; i < secname.length(); i++){
                 if (i == 0 && !check_first_char(secname[i])) {
-                    printf("\033[1;31m%s\n\033[0m"
-                           "Фамилия должна начинаться на заглавную букву,\n",
-                           secname.c_str());
-                    k = 0;  
-                    std::cout << i << '\t';
-                } else if (!(check_char(secname[i]) || check_ref(secname[i], '-') || check_ref(secname[i], '_') || check_ref(secname[i], '\''))) {
-                    printf("\033[1;31m%s\n\033[0m"
-                           "Допустимы только маленькие буквы и знаки -, _, ' \n"
-                           , secname.c_str());
+                    printf("Фамилия должна начинаться на заглавную букву,\n");
                     k = 0;
-                    std::cout << i << '\t';
-                } else {
-                    k = 1;
-                    return secname;
+                } else if (i != 0 && !(check_char(secname[i]) || check_ref(secname[i], '-') || check_ref(secname[i], '_') || check_ref(secname[i], '\''))) {
+                    printf("Допустимы только маленькие буквы и знаки -, _, ' \n");
+                    k = 0;
+                    //std::cout << i << '\t';
                 }
             }
             if (!k){
-                printf("Вы уверены в правильности ввода? Y/N\n");
+                printf("\033[1;31m%s\n\033[0m", secname.c_str());
                 yorn = getchar();
                 switch(yorn){
                 case 'Y':
                     k = 1;
+                    break;
                 case 'N':
                     k = 0;
+                    break;
                 default: k = 0;
                 }
             }
