@@ -1,0 +1,3 @@
+C:/Users/I/source/repos/Repository/Laba/out/build/x64-debug/CMakeFiles/Laba.dir
+C:/Users/I/source/repos/Repository/Laba/out/build/x64-debug/CMakeFiles/edit_cache.dir
+C:/Users/I/source/repos/Repository/Laba/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
