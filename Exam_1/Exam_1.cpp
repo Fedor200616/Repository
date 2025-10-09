@@ -1,21 +1,14 @@
 ﻿#include <iostream>
 
-class MyClass {
-public:
-    static int count;
-
-    MyClass() {
-        count++;
-    }
-
-    void showCount() {
-        std::cout << "Создано объектов: " << count << std::endl;
-    }
-};
-
-int MyClass::count = 0;
-
 int main() {
-    MyClass a, b, c;
-    MyClass::showCount(); // выведет 3
+	int* ptr = new int;
+	*ptr = 5;
+	delete ptr;
+	if (ptr) {
+		std::cout << "Pointer is not null after delete." << std::endl;
+	}
+	else {
+		std::cout << "Pointer is null after delete." << std::endl;
+	}
+	return 0;
 }
