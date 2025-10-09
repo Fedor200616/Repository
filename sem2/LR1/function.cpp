@@ -159,7 +159,8 @@ std::string name() {
     bool k = 0;
     char c_secname[255];
     std::string secname;
-    char yorn;    
+    char yorn;
+    clearScreen();
     while (!k) {
         printf("Введите фамилию студента или 0 для выхода в меню \n");
         fgets(c_secname, char_length, stdin);
@@ -170,29 +171,32 @@ std::string name() {
             secname = c_secname;
             for(int i = 0; i < secname.length(); i++){
                 if (i == 0 && !check_first_char(secname[i])) {
-                  printf("\033[1;31m%s\n\033[0m"
-                         "Фамилия должна начинаться на заглавную букву,\n",
-                         secname.c_str());
+                    printf("\033[1;31m%s\n\033[0m"
+                           "Фамилия должна начинаться на заглавную букву,\n",
+                           secname.c_str());
                     k = 0;           
-                } else if (!check_char(secname[i]) || !check_ref(secname[i], '-') || !check_ref(secname[i], '_') || !check_ref(secname[i], '\'')) {
-                  printf("\033[1;31m%s\n\033[0m"
-                         "Допустимы только маленькие буквы и знаки -, _, ' \n"
-                         , secname.c_str());
-                  k = 0;
-                  break;
+                } else if (!(check_char(secname[i]) || check_ref(secname[i], '-') || check_ref(secname[i], '_') || check_ref(secname[i], '\''))) {
+                    printf("\033[1;31m%s\n\033[0m"
+                           "Допустимы только маленькие буквы и знаки -, _, ' \n"
+                           , secname.c_str());
+                    k = 0;
+                    break;
+                } else {
+                    k = 1;
+                    return secname;
                 }
-                else return secname;
             }
-            printf("Вы уверены в правильности ввода? Y/N\n");
-            yorn = getchar();
-            switch(yorn){
-            case 'Y':
-                k = 1;
-            case 'N':
-                k = 0;
-            default: k = 0;
+            if (!k){
+                printf("Вы уверены в правильности ввода? Y/N\n");
+                yorn = getchar();
+                switch(yorn){
+                case 'Y':
+                    k = 1;
+                case 'N':
+                    k = 0;
+                default: k = 0;
+                }
             }
-            
         }            
         else {
             clearScreen();
