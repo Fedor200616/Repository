@@ -1,4 +1,4 @@
-﻿// Laba.h : включаемый файл для стандартных системных включаемых файлов
+// Laba.h : включаемый файл для стандартных системных включаемых файлов
 // или включаемые файлы для конкретного проекта.
 
 #pragma once
@@ -23,7 +23,6 @@ bool check_ref(char c, char ref); // Проверяет 1 аргумент со 
 void clearScreen(); // Очистка экрана
 void clear_n(char* str); // Убирает \n из строки
 bool filename_check(std::string* name); // Проверка имени файла на валидность
-void file_new_string();
 
 //function.cpp
 void namefile(); // Работа с файлом фамилии

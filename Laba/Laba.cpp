@@ -7,11 +7,11 @@ using namespace std;
 
 int main()
 {
-	setlocale(LC_ALL, "Russian");
-	std::locale::global(std::locale("ru_RU.UTF-8"));
+    //setlocale(LC_ALL, "Russian");
+    //std::locale::global(std::locale("ru_RU.UTF-8"));
 	clearScreen();
-	//menu();
-	std::string name1 = group();
-	std::cout << name1;
+	menu();
+	//std::string name1 = group();
+	//std::cout << name1;
 	return 0;
 }
