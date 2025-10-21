@@ -269,7 +269,7 @@ int groupnum(){
     while (!correct){
         printf("Введите номер ученика в группе\n");
         scanf("%d", &num);
-	while (getchar() != '\n');
+	while (getchar() != '\n'){};
         if(check_is_int(num)){
             clearScreen();
             printf("Вы должны ввести число\n");
