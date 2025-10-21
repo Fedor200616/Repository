@@ -84,13 +84,13 @@ void namefile() {     //Основная функция для работы с �
         int buffer_num = groupnum();
         clearScreen();
         printf("Записать данные студента\n"
-               "| %-15s | %-12s | %-5i \n"
-               "Y/N?\n",
+               "| %-12s | %-12s | %-5i| ?\n"
+               "Y/N/R для выхода в меню\n",
                buffer_secname.c_str(), buffer_group.c_str(), buffer_num);
-        clearScreen();
         int k = ynr();
+	clearScreen();
         if (k == 1) {
-            fprintf(file, "| %-15s | %-12s | %-5i \n", buffer_secname.c_str(),
+            fprintf(file, "| %-12s | %-12s | %-5i |\n", buffer_secname.c_str(),
                     buffer_group.c_str(), buffer_num);
             printf("Данные успешно записаны!");
         }
@@ -265,6 +265,7 @@ int groupnum(){
     while (!correct){
         printf("Введите номер ученика в группе\n");
         scanf("%d", &num);
+	while (getchar() != '\n');
         if(check_is_int(num)){
             clearScreen();
             printf("Вы должны ввести число\n");

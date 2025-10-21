@@ -43,9 +43,10 @@ void clear_n(char* str) { str[strcspn(str, "\n")] = '\0'; }
 
 bool yorn() {
     bool k;
-    char yesno = getchar(); 
-    while (getchar() != '\n');
+    char yesno;
     while (true) {
+        yesno = getchar();
+        while (getchar() != '\n');
         switch(yesno){
         case 'y':
         case 'Y':
@@ -66,15 +67,16 @@ bool yorn() {
 int ynr(){
     bool o = 0;
     int k;
-    char ch = getchar();
-    while (getchar() != '\n');
+    char ch;
     while (true){
+        ch = getchar();
+	while (getchar() != '\n');
         switch(ch){
         case 'n':
         case 'N':
             return 0;
             break;
-        case 'y':
+	case 'y':
         case 'Y':
             return 1;
             break;
@@ -83,7 +85,8 @@ int ynr(){
             return 2;
             break;
         default:
-            printf("Неверный ввод, допустимо только Y,N,R\n");
+	    printf("Неверный ввод %c, допустимо только Y,N,R\n", ch);
+	    break;
         }
     }        
 }
