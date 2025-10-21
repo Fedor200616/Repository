@@ -60,7 +60,7 @@ void namefile() {     //Основная функция для работы с �
         printf("Ошибка открытия файла!\n");
         return;
     } else
-        printf("Файл %s создан!\n", filename.c_str());
+        printf("Файл %s успешно открыт!\n", filename.c_str());
 
     std::string buffer_secname;
     bool file_exit = 0;
@@ -75,14 +75,33 @@ void namefile() {     //Основная функция для работы с �
             return;
         }
         else {
-            fprintf(file, "%s\t", buffer_secname.c_str());
             clearScreen();
-            printf("Фамилия %s добавлена в файл! \n", buffer_secname.c_str());
+            printf("Фамилия студента %s \n", buffer_secname.c_str());
         }
-        fprintf(file, "|\t");
         std::string buffer_group = group();
-        fprintf(file, "%s\t", buffer_group.c_str());
-        fprintf(file, "|\t");    //ОСТАНОВИЛИСЬ ТУТ - ПРОДОЛЖЕНИЕ ВВОД НОМЕРА заметка - возможно нужно сделать так, чтоб номер писался первым несмотря на ввод последним
+        clearScreen();
+        printf("Номер группы %s \n", buffer_group.c_str());
+        int buffer_num = groupnum();
+        clearScreen();
+        printf("Записать данные студента\n"
+               "| %-15s | %-12s | %-5i \n"
+               "Y/N?\n",
+               buffer_secname.c_str(), buffer_group.c_str(), buffer_num);
+        clearScreen();
+        int k = ynr();
+        if (k == 1) {
+            fprintf(file, "| %-15s | %-12s | %-5i \n", buffer_secname.c_str(),
+                    buffer_group.c_str(), buffer_num);
+            printf("Данные успешно записаны!");
+        }
+        else if (k == 2) {
+            file_exit = 1;
+            fprintf(file,"\n");
+            clearScreen();
+            fclose(file);
+            menu();
+            return;
+        }
     }
 
 }
@@ -130,7 +149,6 @@ std::string name() {
     bool k = 0;
     char c_secname[255];
     std::string secname;
-    char yorn;
     clearScreen();
     while (!k) {
         printf("Введите фамилию студента или 0 для выхода в меню \n");
@@ -154,19 +172,7 @@ std::string name() {
                         printf("Вы имели ввиду %s?\n"
                                "Y/N\n",
                                secname.c_str());
-                        yorn = getchar();
-                        while (getchar() != '\n');
-                        switch(yorn){
-                        case 'Y':
-                            k = 1;
-                            break;
-                        case 'N':
-                            k = 0;
-                            break;
-                        default:
-                            k = 0;
-                            break;
-                        }
+                        k = yorn();
                     }
                     else k = 0;
                 }                    
@@ -179,23 +185,7 @@ std::string name() {
                 printf("\033[1;31m%s\033[0m\n"
                        "Вы уверены в правильности ввода?\n"
                        "Y/N\n", secname.c_str());
-                while (!k){
-                    yorn = getchar();
-                    while (getchar() != '\n');
-                    switch(yorn){
-                    case 'Y':
-                        k = 1;
-                        break;
-                    case 'N':
-                        k = 0;
-                        break;
-                    default:
-                        printf("Введите Y или N\n");
-                        k = 0;
-                        continue;
-                    }
-                    break;
-                }              
+                k = yorn();              
             }
         }            
         else {
@@ -219,6 +209,7 @@ std::string group() {
             continue;
         }
         correct_name = 1;
+        clear_n(c_name);
         name = c_name;
         int i_char = 0;
         if (!check_first_char(name[i_char])) {   //При вводе _ записываем 2таба для структуры таблицы
@@ -242,13 +233,12 @@ std::string group() {
         }
         i_char++;
         if (!check_first_char(name[i_char])) {  //7 B
-            if (check_char(name[i_char]))  name[i_char] -= 32;
+            if (check_char(name[i_char]));
             else correct_name = 0;
         }
         i_char++;
         if (check_first_char(name[i_char])) i_char++;   //8 V
         else if (check_char(name[i_char])) {
-            name[i_char] -= 32;
             i_char++;
         }
         if (!check_ref(name[i_char], '-')) correct_name = 0;  //9 -
@@ -258,28 +248,29 @@ std::string group() {
         if (!check_is_int(name[i_char])) correct_name = 0;  //11 4
     
         if (!correct_name) {
-            char yorn;
             while (!correct_name) {
                 printf("Номер группы : %s\n Введено верно? Y/N\n", name.c_str());
-                yorn = getchar();
-                while (getchar() != '\n');
-                switch(yorn){
-                case 'Y':
-                    correct_name = 1;
-                    break;
-                case 'N':
-                    correct_name = 0;
-                    break;
-                default:
-                    printf("Введите Y или N\n");
-                    correct_name = 0;
-                    continue;
-                }
-                break;
+                correct_name = yorn();
                 clearScreen();
             }
             
         }
     }
     return name;
+}
+
+int groupnum(){
+    int num;
+    bool correct = 0;
+    while (!correct){
+        printf("Введите номер ученика в группе\n");
+        scanf("%d", &num);
+        if(check_is_int(num)){
+            clearScreen();
+            printf("Вы должны ввести число\n");
+        } else {
+            correct = 1;
+        }
+    }
+    return num;
 }
