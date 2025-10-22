@@ -85,7 +85,7 @@ void namefile() {     //Основная функция для работы с �
         clearScreen();
         printf("Записать данные студента\n"
                "| %-12s | %-12s | %-5i| ?\n"
-               "Y/N/R для выхода в меню\n",
+               "[Y/N/R для выхода в меню]\n",
                buffer_secname.c_str(), buffer_group.c_str(), buffer_num);
         int k = ynr();
 	clearScreen();
@@ -172,7 +172,7 @@ std::string name() {
                         b_secname = secname;
                         b_secname[0] -= 32;
                         printf("Вы имели ввиду %s?\n"
-                               "Y/N\n",
+                               "[Y/N]\n",
                                b_secname.c_str());
                         k = yorn();
                         if (k) {
@@ -190,7 +190,7 @@ std::string name() {
             if (!k){
                 printf("\033[1;31m%s\033[0m\n"
                        "Вы уверены в правильности ввода?\n"
-                       "Y/N\n", secname.c_str());
+                       "[Y/N]\n", secname.c_str());
                 k = yorn();
                 clearScreen();
             }
@@ -255,7 +255,7 @@ std::string group() {
         if (!check_is_int(name[i_char])) correct_name = 0;  //11 4
     
         if (!correct_name) {
-            printf("Номер группы : %s\n Введено верно? Y/N\n", name.c_str());
+            printf("Номер группы : %s\n Введено верно? [Y/N]\n", name.c_str());
             correct_name = yorn();
             clearScreen();            
         }
@@ -268,13 +268,15 @@ int groupnum(){
     bool correct = 0;
     while (!correct){
         printf("Введите номер ученика в группе\n");
-        scanf("%d", &num);
-	while (getchar() != '\n');
-        if(check_is_int(num)){
+        if(scanf("%i", &num)){
+            correct = 1;
+            while(getchar() != '\n');
+            clearScreen();
+            return num;
+        } else {
+            while (getchar() != '\n');
             clearScreen();
             printf("Вы должны ввести число\n");
-        } else {
-            correct = 1;
         }
     }
     return num;
