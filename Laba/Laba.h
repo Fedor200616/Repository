@@ -15,7 +15,7 @@
 #define HEADER_H
 
 const int char_length = 255;
-const int Aa = -32;
+const int Aa = 32;
 
 //utility.cpp
 bool check_first_char(char c); // Выводит 1 если буква заглавная, или ноль
