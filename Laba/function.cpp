@@ -170,7 +170,7 @@ std::string name() {
                     printf("Фамилия должна начинаться на заглавную букву,\n");
                     if (check_char(secname[i]) && i == 0) {
                         b_secname = secname;
-                        b_secname[0] -= 32;
+                        b_secname[0] -= Aa;
                         printf("Вы имели ввиду %s?\n"
                                "[Y/N]\n",
                                b_secname.c_str());

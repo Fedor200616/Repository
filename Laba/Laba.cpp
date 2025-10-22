@@ -10,7 +10,7 @@ int main()
   // setlocale(LC_ALL, "Russian");
   // std::locale::global(std::locale("ru_RU.UTF-8"));
     clearScreen();
-    menu();
+    menu();  
   // std::string name1 = group();
   // std::cout << name1;
   //groupnum();
