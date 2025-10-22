@@ -178,7 +178,6 @@ std::string name() {
                         if (k) {
                           secname = b_secname;
                         }
-                        else k = 1;
                     }
                     else k = 0;
                 }                    
@@ -219,9 +218,10 @@ std::string group() {
         clear_n(c_name);
         name = c_name;
         int i_char = 0;
-        if (!check_first_char(name[i_char])) {   //При вводе _ записываем 2таба для структуры таблицы
-            if (check_char(name[i_char])) name[i_char] -= 32;
-            else if (check_ref(name[i_char], '_')) return "\t\t";
+        if (!check_first_char(name[i_char])) {
+            if (check_char(name[i_char])) name[i_char];
+            else if (check_ref(name[i_char], '_') || check_ref(name[i_char], '\n') || check_ref(name[i_char], ' '))
+              return "\t";
             else correct_name = 0;
         }
         i_char++;
