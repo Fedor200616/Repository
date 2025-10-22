@@ -219,8 +219,7 @@ std::string group() {
         name = c_name;
         int i_char = 0;
         if (!check_first_char(name[i_char])) {
-            if (check_char(name[i_char])) name[i_char];
-            else if (check_ref(name[i_char], '_') || check_ref(name[i_char], '\n') || check_ref(name[i_char], ' '))
+            if (check_ref(name[i_char], '_') || check_ref(name[i_char], '\n') || check_ref(name[i_char], ' '))
               return "\t";
             else correct_name = 0;
         }
@@ -240,16 +239,18 @@ std::string group() {
         }
         i_char++;
         if (!check_first_char(name[i_char])) {  //7 B
-            if (check_char(name[i_char]));
-            else correct_name = 0;
+            correct_name = 0;
         }
         i_char++;
         if (check_first_char(name[i_char])) i_char++;   //8 V
-        else if (check_char(name[i_char])) {
-            i_char++;
-        }
-        if (!check_ref(name[i_char], '-')) correct_name = 0;  //9 -
-        i_char++;
+        else if (check_ref(name[i_char], '-')) {	//9 - 
+			correct_name = 0;
+			i_char++;
+		}
+		else {
+			i_char++;
+			correct_name = 0;
+		}
         if (!check_is_int(name[i_char])) correct_name = 0;  //10 2
         i_char++;
         if (!check_is_int(name[i_char])) correct_name = 0;  //11 4
