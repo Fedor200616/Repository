@@ -1,10 +1,9 @@
-#include <cstdio>
-#include <fstream>
-#include <iostream>
-#include <stdio.h>
-#include <string>
-#include <filesystem>
+
+
+#include "utility.h"
 #include "Laba.h"
+#include "function.h"
+#include "settings.h"
 
 bool check_first_char(char c) {
     if (c >= 'A' && c <= 'Z')
@@ -69,7 +68,7 @@ int ynr(){
     char ch;
     while (true){
         ch = getchar();
-	while (getchar() != '\n');
+	while (getchar() != '\n'){};
         switch(ch){
         case 'n':
         case 'N':
@@ -93,42 +92,26 @@ int ynr(){
 bool check_group(std::string name) {
     bool correct_name = 1;
     int i_char = 0;
-    if (!check_first_char(name[i_char])) {
-        if (check_ref(name[i_char], '_') || check_ref(name[i_char], '\n') || check_ref(name[i_char], ' '))
-            return "";
+    if (name.length() == 1){
+        if (check_ref(name[0], '_') || check_ref(name[0], ' ') || check_ref(name[0], '\0')){
+            return 1;
+        }
+        else if (check_ref(name[0], '0')){
+            return 1;
+        }
+    }
+    for (int i = 0; i < name.length(); i++){
+        if (check_first_char(name[i]))
+            ;
+        else if (check_char(name[i]))
+            ;
+        else if (check_is_int(name[i]))
+            ;
+        else if (check_ref(name[i], '-') || check_ref(name[i], '_'))
+            ;
         else correct_name = 0;
+      
     }
-    i_char++;
-    if (!check_is_int(name[i_char])) correct_name = 0;   //1 7
-    i_char++;
-    //if (!check_is_int(name[i_char])) i_char++;    //Если факультет >= 10 
-    if (!check_first_char(name[i_char])) { //2 O
-        if (check_ref(name[i_char], '0')) name[2] = 'O';
-        else correct_name = 0;
-    }
-    i_char++;
-    if (!check_ref(name[i_char], '-')) correct_name = 0;    //3 -
-    i_char++;
-    for (int p = 0; p <= 2; i_char++, p++) {
-        if (!check_is_int(name[i_char])) correct_name = 0;  //4-6 206
-    }
-    if (!check_first_char(name[i_char])) {  //7 B
-        correct_name = 0;
-    }
-    i_char++;    
-    if (check_first_char(name[i_char]))
-        i_char++;    //8 V
-    if (check_ref(name[i_char], '-')) {
-        i_char++;
-    }
-    else {
-        i_char++;
-        correct_name = 0;
-    }
-    if (!check_is_int(name[i_char])) correct_name = 0;  //10 2
-    i_char++;
-    if (!check_is_int(name[i_char])) correct_name = 0;  //11 4
-    
     if (!correct_name) {
         printf("Номер группы : %s\n Введено верно? [Y/N]\n", name.c_str());
         correct_name = yorn();

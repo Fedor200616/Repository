@@ -1,5 +1,12 @@
-﻿// Laba.cpp: определяет точку входа для приложения.
+// Laba.cpp: определяет точку входа для приложения.
 //
+#include <iostream>
+#include <cstdio>
+#include <fstream>
+#include <stdio.h>
+#include <string>
+#include <filesystem>
+#include <cstring>
 #include "Laba.h"
 #include "function.h"
 #include "utility.h"

@@ -1,0 +1,19 @@
+#include <iostream>
+#include <cstdio>
+#include <fstream>
+#include <stdio.h>
+#include <string>
+#include <filesystem>
+#include <cstring>
+
+#ifndef FUNCTION_H
+#define FUNCTION_H
+
+//function.cpp
+void namefile(); // Работа с файлом фамилии
+void menu(); // Главное меню
+std::string name(); // Ввод фамилии
+std::string group(); // Ввод группы
+std::string groupnum(); //Ввод номера ученика в группе
+
+#endif
