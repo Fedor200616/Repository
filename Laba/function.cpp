@@ -2,8 +2,9 @@
 #include "function.h"
 #include "utility.h"
 #include "settings.h"
+#include <cctype>
+#include <cstdio>
 
-// Проверь комментарии
 
 bool filename_check(std::string* name) {    //Функция проверяет введенное имя файла
     int size = name->length();
@@ -24,7 +25,7 @@ bool filename_check(std::string* name) {    //Функция проверяет 
     }
 }
 
-void namefile() {     //Основная функция для работы с файлом с фамилиями
+FILE* makefile() {     //Основная функция для работы с файлом с фамилиями
     clearScreen();
     char c_filename[char_length];
     std::string filename;    
@@ -40,7 +41,7 @@ void namefile() {     //Основная функция для работы с �
         }
         printf("Введите название .txt файла:\n");    // Пользователь вводит имя его файла, мы его проверяем и создаем файл с его именен
         if (fgets(c_filename, char_length - 1, stdin) == NULL) {
-            printf("Ошибка ввода!\n");
+            printf("\033[1;31mОшибка ввода!\n\033[0m");
             continue;
         }
         clear_n(c_filename);
@@ -51,17 +52,35 @@ void namefile() {     //Основная функция для работы с �
 	
     FILE *file = fopen(filename.c_str(), "a+");
 
-    if (file == NULL){
-        printf("Ошибка открытия файла!\n");
-        return;
-    } else
+    if (!file){
+        printf("\033[1;31mОшибка открытия файла!\n\033[0m");
+        
+        return nullptr;
+    } else {
         printf("Файл %s успешно открыт!\n", filename.c_str());
+        return file;
+    }    
+}
 
-    std::string buffer_secname;
+void secname() {
+    printf("Выберите файл с фамилиями");
+    FILE *file = makefile();
+    if (!file){
+        printf("\033[1;31mОшибка открытия файла!\033[0m\n");
+        menu();
+        return;
+    }
+    struct Secname_struct{
+        std::string buffer_secname;
+        std::string buffer_group;
+        std::string buffer_num;
+    };
+    struct Secname_struct sn;
+    
     bool file_exit = 0;
     while (!file_exit) {
-        buffer_secname = name();
-        if (buffer_secname == "0") {
+        sn.buffer_secname = name();
+        if (sn.buffer_secname == "0") {
             file_exit = 1;
             fprintf(file,"\n");
             clearScreen();
@@ -71,27 +90,27 @@ void namefile() {     //Основная функция для работы с �
         }
         else {
             clearScreen();
-            printf("Фамилия студента %s \n", buffer_secname.c_str());
+            printf("Фамилия студента %s \n", sn.buffer_secname.c_str());
         }
-        std::string buffer_group = group();
+        sn.buffer_group = group();
         clearScreen();
-        if (buffer_group == "0"){
-            printf("Возврат к выбору фамилии");
+        if (sn.buffer_group == "0"){
+            printf("Возврат к выбору фамилии\n");
             continue;
         }
-        printf("Номер группы %s \n", buffer_group.c_str());
-        std::string buffer_num = groupnum();
+        printf("Номер группы %s \n", sn.buffer_group.c_str());
+        sn.buffer_num = groupnum();
         clearScreen();
         printf("Записать данные студента\n"
                "| %-12s | %-12s | %-5s|\n"
                "[Y/N/R для выхода в меню]\n",
-               buffer_secname.c_str(), buffer_group.c_str(), buffer_num.c_str());
+               sn.buffer_secname.c_str(), sn.buffer_group.c_str(), sn.buffer_num.c_str());
         int k = ynr();
 	clearScreen();
         if (k == 1) {
-            fprintf(file, "| %-12s | %-12s | %-5s |\n", buffer_secname.c_str(),
-                    buffer_group.c_str(), buffer_num.c_str());
-            printf("Данные успешно записаны!");
+            fprintf(file, "| %-12s | %-12s | %-5s |\n", sn.buffer_secname.c_str(),
+                    sn.buffer_group.c_str(), sn.buffer_num.c_str());
+            printf("Данные успешно записаны!\n");
         }
         else if (k == 2) {
             file_exit = 1;
@@ -102,7 +121,66 @@ void namefile() {     //Основная функция для работы с �
             return;
         }
     }
+}
 
+void password() {
+    printf("Выберите файл паролей");
+    FILE *file = makefile();
+    if (!file){
+        printf("\033[1;31mОшибка открытия файла!\n\033[0m");
+        menu();
+        return;
+    }
+    struct Password_struct{
+        std::string buffer_password;
+        std::string buffer_group;
+        std::string buffer_num;
+    };
+    struct Password_struct pw;
+    int file_exit = 0;
+    while(!file_exit){
+        pw.buffer_password = enter_password();
+        if (pw.buffer_password == "0") {
+            file_exit = 1;
+            fprintf(file,"\n");
+            clearScreen();
+            fclose(file);
+            menu();
+            return;
+        }
+        else {
+            clearScreen();
+            printf("Пароль студента %s \n", pw.buffer_password.c_str());
+        }
+        pw.buffer_group = group();
+        clearScreen();
+        if (pw.buffer_group == "0"){
+            printf("Возврат к выбору пароля");
+            continue;
+        }
+        printf("Номер группы %s \n", pw.buffer_group.c_str());
+        pw.buffer_num = groupnum();
+        clearScreen();
+        printf("Записать данные студента\n"
+               "| %-20s | %-12s | %-5s|\n"
+               "[Y/N/R для выхода в меню]\n",
+               pw.buffer_password.c_str(), pw.buffer_group.c_str(), pw.buffer_num.c_str());
+        int k = ynr();
+	clearScreen();
+        if (k == 1) {
+            fprintf(file, "| %-20s | %-12s | %-5s |\n", pw.buffer_password.c_str(),
+                    pw.buffer_group.c_str(), pw.buffer_num.c_str());
+            printf("Данные успешно записаны!\n");
+        }
+        else if (k == 2) {
+            file_exit = 1;
+            fprintf(file,"\n");
+            clearScreen();
+            fclose(file);
+            menu();
+            return;
+        }
+    }
 }
 
 void menu() {
@@ -110,11 +188,11 @@ void menu() {
     bool wrong_enter = 0;
     bool k = 0;
     char enter_num;
-    while (!k) {  
+    while (!k) {
         printf("Выберите тип ввода: \n"
                "1) Ввод фамилии студента; \n"
-               "\033[1;31m2) Ввод пароля студента; INOP \n"
-               "3) Настройки программы; INOP\n\033[0m"
+               "2) Ввод пароля студента;\n"
+               "\033[1;31m3) Настройки программы; INOP\n\033[0m"
                "0) Закрыть программу.\n"); // В будущем сделать проверку ошибок
         
         //std::cin >> enter_num;        
@@ -126,10 +204,15 @@ void menu() {
         while (getchar() != '\n');
         switch (enter_num) {
         case '1':     //Вызов функции Name
-            namefile();
+            secname();
             k = 1;            
             return;
-            break;   
+            break;
+        case '2':
+            password();
+            k = 1;
+            return;
+            break;
         case '0':
             puts("Вызов функции Endprogramm");
             k = 1;
@@ -207,7 +290,7 @@ std::string group() {
     std::string name;
     while (!correct_name) {
         printf("Введите номер группы формата M7O-206BV-24 \n"
-                "Вы можете ввести _ для оставления строки пустой или 0 для возврата к выбору фамилии\n");
+                "Вы можете ввести _ для оставления строки пустой или 0 для возврата назад\n");
         if (fgets(c_name, char_length - 1, stdin) == NULL) {
             printf("Ошибка ввода!\n");
             continue;
@@ -252,4 +335,100 @@ std::string groupnum(){
         
     }
     return num;
+}
+
+std::string enter_password(){
+    char c_pass[pass_length + 1];
+    std::string pass;
+    bool correct = 0;
+    while (!correct) {
+        bool devmod = 0; // При вводе 1-м символом пробел программа не проверяет правильность написания пароля
+        correct = 0;
+        printf("Введите пароль студента\n"
+               "Пароль должен содержать не менее 8 символов и не более 20 символов\n"
+               "Пароль должен содержать хотя бы одну букву, заглавную букву, "
+               "цифру и специальный знак\n"
+               "Введите 0 для возврата в меню\n");
+        if (fgets(c_pass, pass_length + 1, stdin) == NULL) {
+            printf("Ошибка ввода\n");
+            continue;
+        }
+                clear_n(c_pass);             
+        pass = c_pass;
+        if (pass[0] == ' ') {    // "Аварийный режим" ввод любой строки
+            devmod = 1;
+            for (int i = 1; i <= pass.length(); i++){
+                pass[i-1] = pass[i];
+            }
+            printf("Вы ввели пароль %s выхотите продолжить?\n"
+                   "[Y/N]\n",
+                   pass.c_str());
+            correct = yorn();
+            if(correct){
+                clearScreen();
+                return pass;
+                break;
+            } else {
+                clearScreen();
+                continue;
+            }
+        }
+        if (pass.length() <= 8) {
+            //clearScreen();
+            printf ("\033[1;31m%s Пароль должен содержать не менее 8 символов\033[0m\n", pass.c_str());
+            continue;
+        } else if (pass.length() == pass_length) {
+            printf("\033[1;31m%s Пароль должен содержать не более 20 "
+                   "символов\033[0m\n",
+                   pass.c_str());
+            while(getchar() != '\n');
+            continue;
+        }
+        struct Password_check {
+            bool capital = 0;
+            bool general = 0;
+            bool integer = 0;
+            bool special = 0;
+        };
+        struct Password_check pc;
+        for (int i = 0; i < pass.length(); i++) {
+            if (check_first_char(pass[i]))
+                pc.capital = 1;
+            else if (check_char(pass[i]))
+                pc.general = 1;
+            else if (check_is_int(pass[i]))
+                pc.integer = 1;
+            else if (std::ispunct(pass[i]))
+                pc.special = 1;
+            else {
+                clearScreen();
+                printf("\033[1;31mКакая-то ошбика(\n"
+                       "Пароль %s"
+                       "пробелема с символом %d символ %c\n"
+                       "Введите правильный пароль\033[0m\n",
+                       pass.c_str(), i, pass[i]);
+                continue;
+            }
+        }
+        if(pc.capital && pc.general && pc.integer && pc.special){
+            correct = 1;
+        } else {
+            //clearScreen();
+            printf("\033[1;31m%s\n", pass.c_str());
+            correct = 0;
+            if (pc.capital == false)
+                printf("Пароль должен содержать заглавные буквы\n");
+            if (pc.general == false)
+                printf("Пароль должен содержать буквы\n");
+            if (pc.integer == false)
+                printf("Пароль должен содержать цифру\n");
+            if (pc.special == false)
+                printf("Пароль должен содержать специальный знак\n");
+            if (!(pc.capital || pc.general || pc.special || pc.integer))
+                printf("Чумба проверь клавиатуру, возможно ты пишешь не на "
+                       "английском\n");
+            printf("\033[0m");
+        }
+    }
+    return pass;
 }

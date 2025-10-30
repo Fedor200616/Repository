@@ -10,10 +10,13 @@
 #define FUNCTION_H
 
 //function.cpp
-void namefile(); // Работа с файлом фамилии
-void menu(); // Главное меню
-std::string name(); // Ввод фамилии
-std::string group(); // Ввод группы
-std::string groupnum(); //Ввод номера ученика в группе
+FILE* makefile(); // Работа с файлом
+void secname();   // Работа с файлом фамилией
+void password();  // Работа с файлом пароля
+void menu();      // Главное меню
+std::string name();   // Ввод фамилии
+std::string group();  // Ввод группы
+std::string groupnum();   //Ввод номера ученика в группе
+std::string enter_password(); // Ввод пароля
 
 #endif

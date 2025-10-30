@@ -82,6 +82,7 @@ void settingsmenu() {
         printf("1) AutoCapLetter = %d / Автозамена первой буквы фамилии\n",
                s.AutoCapLetter);
         printf("Введите новое значение\n");
+        
     }
 }
 
