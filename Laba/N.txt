@@ -1,2 +1,4 @@
-| Pochtarev    | M70-206BV-24 | 14    |
+| Pochtarev    | M7O-206BV-24 | 13    |
+| Ignatov      | M7O-206BV-24 | 9     |
+| Elistratova  | M6O-228BV-24 | 24    |
 

@@ -82,7 +82,6 @@ void secname() {
         sn.buffer_secname = name();
         if (sn.buffer_secname == "0") {
             file_exit = 1;
-            fprintf(file,"\n");
             clearScreen();
             fclose(file);
             menu();
@@ -142,7 +141,6 @@ void password() {
         pw.buffer_password = enter_password();
         if (pw.buffer_password == "0") {
             file_exit = 1;
-            fprintf(file,"\n");
             clearScreen();
             fclose(file);
             menu();
@@ -372,6 +370,11 @@ std::string enter_password(){
                 clearScreen();
                 continue;
             }
+        }
+        if (pass == "0"){
+            clearScreen();
+            printf("Возврат в главное меню");
+            return "0";
         }
         if (pass.length() <= 8) {
             //clearScreen();
