@@ -67,7 +67,7 @@ void secname() {
     FILE *file = makefile();
     if (!file){
         printf("\033[1;31mОшибка открытия файла!\033[0m\n");
-        menu();
+        //menu();
         return;
     }
     struct Secname_struct{
@@ -84,7 +84,7 @@ void secname() {
             file_exit = 1;
             clearScreen();
             fclose(file);
-            menu();
+            //menu();
             return;
         }
         else {
@@ -116,7 +116,7 @@ void secname() {
             fprintf(file,"\n");
             clearScreen();
             fclose(file);
-            menu();
+            //menu();
             return;
         }
     }
@@ -127,7 +127,7 @@ void password() {
     FILE *file = makefile();
     if (!file){
         printf("\033[1;31mОшибка открытия файла!\n\033[0m");
-        menu();
+        //menu();
         return;
     }
     struct Password_struct{
@@ -143,7 +143,7 @@ void password() {
             file_exit = 1;
             clearScreen();
             fclose(file);
-            menu();
+            //menu();
             return;
         }
         else {
@@ -175,13 +175,13 @@ void password() {
             fprintf(file,"\n");
             clearScreen();
             fclose(file);
-            menu();
+            //menu();
             return;
         }
     }
 }
 
-void menu() {
+int menu() {
     clearScreen();
     bool wrong_enter = 0;
     bool k = 0;
@@ -190,7 +190,7 @@ void menu() {
         printf("Выберите тип ввода: \n"
                "1) Ввод фамилии студента; \n"
                "2) Ввод пароля студента;\n"
-               "\033[1;31m3) Настройки программы; INOP\n\033[0m"
+               //"\033[1;31m3) Настройки программы; INOP\n\033[0m"
                "0) Закрыть программу.\n"); // В будущем сделать проверку ошибок
         
         //std::cin >> enter_num;        
@@ -204,24 +204,21 @@ void menu() {
         case '1':     //Вызов функции Name
             secname();
             k = 1;            
-            return;
             break;
         case '2':
             password();
             k = 1;
-            return;
             break;
         case '0':
-            puts("Вызов функции Endprogramm");
+            return 0;
             k = 1;
-            return;
             break;
         default:
             puts("Неверный ввод!!!");
             break;
         }
-        
     }
+    return 1;
 }
 
 std::string name() {

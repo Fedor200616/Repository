@@ -13,7 +13,7 @@
 FILE* makefile(); // Работа с файлом
 void secname();   // Работа с файлом фамилией
 void password();  // Работа с файлом пароля
-void menu();      // Главное меню
+int menu();      // Главное меню
 std::string name();   // Ввод фамилии
 std::string group();  // Ввод группы
 std::string groupnum();   //Ввод номера ученика в группе
