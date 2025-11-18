@@ -141,13 +141,15 @@ bool check_group(std::string name) {
 
 //#ifdef _WIN_
 bool RU_check_first_char(unsigned char c) {
-    if (c >= L'A' && c <= L'Я')
+	//printf("%c : %d\n", c, c); // debug
+    if (c >= 192 && c <= 222 || c == 168)
         return 1;
     else return 0;
 	//return 1;
 }
 bool RU_check_char(unsigned char c) {
-    if (c >= L'а' && c <= L'я')
+    //printf("%c : %d\n", c, c); //debug
+    if (c >= 223 && c <= 255 || c == 184)
         return 1;
     else return 0;
 }

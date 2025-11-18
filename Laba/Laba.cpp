@@ -8,14 +8,14 @@
 
 int main()
 {
-    SetConsoleCP(CP_UTF8);       // входная кодировка
-    SetConsoleOutputCP(CP_UTF8); // выходная кодировка
+    SetConsoleCP(1251);       // входная кодировка
+    SetConsoleOutputCP(1251); // выходная кодировка
     //_setmode(_fileno(stdout), _O_U8TEXT); // для wcout и русских символов
     //_setmode(_fileno(stdin), _O_U8TEXT);
     setlocale(LC_ALL, "");
-    std::locale::global(std::locale("ru_RU.UTF-8"));
+    //std::locale::global(std::locale("ru_RU.UTF-8"));
     clearScreen();
-    while (menu()); 
-    
+    while (menu());
+
 	return 0;
 }
