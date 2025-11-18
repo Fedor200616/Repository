@@ -1,4 +1,4 @@
-// Laba.cpp: определяет точку входа для приложения.
+п»ї// Laba.cpp: РѕРїСЂРµРґРµР»СЏРµС‚ С‚РѕС‡РєСѓ РІС…РѕРґР° РґР»СЏ РїСЂРёР»РѕР¶РµРЅРёСЏ.
 //
 #define _CRT_SECURE_NO_WARNINGS
 #include "Laba.h"
@@ -8,9 +8,9 @@
 
 int main()
 {
-    SetConsoleCP(CP_UTF8);       // входная кодировка
-    SetConsoleOutputCP(CP_UTF8); // выходная кодировка
-    //_setmode(_fileno(stdout), _O_U8TEXT); // для wcout и русских символов
+    SetConsoleCP(CP_UTF8);       // РІС…РѕРґРЅР°СЏ РєРѕРґРёСЂРѕРІРєР°
+    SetConsoleOutputCP(CP_UTF8); // РІС‹С…РѕРґРЅР°СЏ РєРѕРґРёСЂРѕРІРєР°
+    //_setmode(_fileno(stdout), _O_U8TEXT); // РґР»СЏ wcout Рё СЂСѓСЃСЃРєРёС… СЃРёРјРІРѕР»РѕРІ
     //_setmode(_fileno(stdin), _O_U8TEXT);
     setlocale(LC_ALL, "");
     std::locale::global(std::locale("ru_RU.UTF-8"));

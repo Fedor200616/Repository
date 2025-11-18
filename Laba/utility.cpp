@@ -1,4 +1,4 @@
-#include "utility.h"
+ï»¿#include "utility.h"
 #include "Laba.h"
 #include "function.h"
 
@@ -54,7 +54,7 @@ bool yorn() {
             return false;
             break;
         default:
-            printf("Íåâåðíûé ââîä, äîïóñòèìî òîëüêî Y èëè N\n");
+            printf("ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð²Ð²Ð¾Ð´, Ð´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ð¾ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Y Ð¸Ð»Ð¸ N\n");
             break;
         }
     }        
@@ -83,13 +83,13 @@ int ynr(){
             return 2;
             break;
         default:
-	        printf("Íåâåðíûé ââîä %c, äîïóñòèìî òîëüêî Y,N,R\n", ch);
+	        printf("ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð²Ð²Ð¾Ð´ %c, Ð´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ð¾ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Y,N,R\n", ch);
 	        break;
         }
     }        
 }
 
-bool filename_check(std::string* name) {    //Ôóíêöèÿ ïðîâåðÿåò ââåäåííîå èìÿ ôàéëà
+bool filename_check(std::string* name) {    //Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÑ‚ Ð²Ð²ÐµÐ´ÐµÐ½Ð½Ð¾Ðµ Ð¸Ð¼Ñ Ñ„Ð°Ð¹Ð»Ð°
     int size = name->length();
     for (int i = 0; i < size; i++) {
         //char c = (*name)[i];
@@ -97,11 +97,11 @@ bool filename_check(std::string* name) {    //Ôóíêöèÿ ïðîâåðÿåò ââåäåííîå èìÿ ôà
             check_is_int((*name)[i]) || check_ref((*name)[i], '_') || check_ref((*name)[i], '.') || check_ref((*name)[i], '-')) {
         }
         else {
-            printf("\033[1;31mÍàçâàíèå äîëæíî ñîäåðæàòü òîëüêî öèôðû, ëàòèíèöó è çíàê '_' \033[0m \n");
+            printf("\033[1;31mÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð´Ð¾Ð»Ð¶Ð½Ð¾ ÑÐ¾Ð´ÐµÑ€Ð¶Ð°Ñ‚ÑŒ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ñ†Ð¸Ñ„Ñ€Ñ‹, Ð»Ð°Ñ‚Ð¸Ð½Ð¸Ñ†Ñƒ Ð¸ Ð·Ð½Ð°Ðº '_' \033[0m \n");
             return 0;
         }
     }
-    if (size > 4 && (*name).substr((*name).size() - 4) == ".txt") return true;     //Äîáàâëÿåì .txt, åñëè åå íå ââåë ïîëüçîâàòåëü
+    if (size > 4 && (*name).substr((*name).size() - 4) == ".txt") return true;     //Ð”Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ .txt, ÐµÑÐ»Ð¸ ÐµÐµ Ð½Ðµ Ð²Ð²ÐµÐ» Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ
     else {
         *name += ".txt";
         return 1;
@@ -132,7 +132,7 @@ bool check_group(std::string name) {
       
     }
     if (!correct_name) {
-        printf("Íîìåð ãðóïïû : %s\n Ââåäåíî âåðíî? [Y/N]\n", name.c_str());
+        printf("ÐÐ¾Ð¼ÐµÑ€ Ð³Ñ€ÑƒÐ¿Ð¿Ñ‹ : %s\n Ð’Ð²ÐµÐ´ÐµÐ½Ð¾ Ð²ÐµÑ€Ð½Ð¾? [Y/N]\n", name.c_str());
         correct_name = yorn();
         clearScreen();
     }
@@ -141,13 +141,13 @@ bool check_group(std::string name) {
 
 //#ifdef _WIN_
 bool RU_check_first_char(unsigned char c) {
-    if (c >= L'A' && c <= L'ß')
+    if (c >= L'A' && c <= L'Ð¯')
         return 1;
     else return 0;
 	//return 1;
 }
 bool RU_check_char(unsigned char c) {
-    if (c >= L'à' && c <= L'ÿ')
+    if (c >= L'Ð°' && c <= L'Ñ')
         return 1;
     else return 0;
 }
