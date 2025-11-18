@@ -25,8 +25,8 @@ int ynr(); // Функция ответа на вопрос Нет/Да/Верн
 bool filename_check(std::string* name); // Проверяет имя файла на ссответсвие требованиям
 bool check_group(std::string name); // Нужна только для group Проверяет
                                     // соответсвие типовому имени группы
-bool RU_check_first_char(char c); // Выводит 1 если буква - русская заглавная, или ноль
-bool RU_check_char(char c); // Ввыводит 1 если символ - маленькая русская буква
+bool RU_check_first_char(unsigned char c); // Выводит 1 если буква - русская заглавная, или ноль
+bool RU_check_char(unsigned char c); // Ввыводит 1 если символ - маленькая русская буква
 bool is_txt(const std::string& filename); // Проверяет расширение файла на .txt
 
 #endif

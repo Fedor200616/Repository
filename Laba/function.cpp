@@ -7,19 +7,19 @@
 #include <cwctype>
 
 
-FILE* makefile() {     //РћСЃРЅРѕРІРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С„Р°Р№Р»РѕРј СЃ С„Р°РјРёР»РёСЏРјРё
+FILE* makefile() {     //Основная функция для работы с файлом с фамилиями
     clearScreen();
     char c_filename[char_length];
     std::string filename;    
     bool check_true = 0;
     std::string path = "myfiles";
     
-    while (check_true == 0) {    // Р’С‹РІРѕРґРёРј РІ cmd С„Р°Р№Р»С‹ СЃ СЂР°СЃС€РёСЂРµРЅРёРµРј .txt
-        printf("Р”РѕСЃС‚СѓРїРЅС‹Рµ С„Р°Р№Р»С‹:\n");
+    while (check_true == 0) {    // Выводим в cmd файлы с расширением .txt
+        printf("Доступные файлы:\n");
 		WIN32_FIND_DATAA fileData;
         HANDLE hFind = FindFirstFileA((path + "\\*.txt").c_str(), &fileData);
         //if (hFind == INVALID_HANDLE_VALUE) {
-        //    printf("\033[1;31mРќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ РґРёСЂРµРєС‚РѕСЂРёСЋ\033[0m\n");
+        //    printf("\033[1;31mНе удалось открыть директорию\033[0m\n");
         //    return nullptr;
         //}
 		do {
@@ -32,9 +32,9 @@ FILE* makefile() {     //РћСЃРЅРѕРІРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ 
         FindClose(hFind);
         printf("===============================================\n");
 
-        printf("Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ .txt С„Р°Р№Р»Р°:\n");    // РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІРІРѕРґРёС‚ РёРјСЏ РµРіРѕ С„Р°Р№Р»Р°, РјС‹ РµРіРѕ РїСЂРѕРІРµСЂСЏРµРј Рё СЃРѕР·РґР°РµРј С„Р°Р№Р» СЃ РµРіРѕ РёРјРµРЅРµРЅ
+        printf("Введите название .txt файла:\n");    // Пользователь вводит имя его файла, мы его проверяем и создаем файл с его именен
         if (fgets(c_filename, char_length - 1, stdin) == NULL) {
-            printf("\033[1;31mРћС€РёР±РєР° РІРІРѕРґР°!\n\033[0m");
+            printf("\033[1;31mОшибка ввода!\n\033[0m");
             continue;
         }
         clear_n(c_filename);
@@ -49,20 +49,20 @@ FILE* makefile() {     //РћСЃРЅРѕРІРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ 
     FILE* file = fopen((path + "/" + filename).c_str(), "a+");
 
     if (!file){
-        printf("\033[1;31mРћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°!\n\033[0m");
+        printf("\033[1;31mОшибка открытия файла!\n\033[0m");
         
         return nullptr;
     } else {
-        printf("Р¤Р°Р№Р» %s СѓСЃРїРµС€РЅРѕ РѕС‚РєСЂС‹С‚!\n", filename.c_str());
+        printf("Файл %s успешно открыт!\n", filename.c_str());
         return file;
     }    
 }
 
 void secname() {
-    printf("Р’С‹Р±РµСЂРёС‚Рµ С„Р°Р№Р» СЃ С„Р°РјРёР»РёСЏРјРё\n");
+    printf("Выберите файл с фамилиями\n");
     FILE *file = makefile();
     if (!file){
-        printf("\033[1;31mРћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°!\033[0m\n");
+        printf("\033[1;31mОшибка открытия файла!\033[0m\n");
         //menu();
         return;
     }
@@ -85,27 +85,27 @@ void secname() {
         }
         else {
             clearScreen();
-            printf("Р¤Р°РјРёР»РёСЏ СЃС‚СѓРґРµРЅС‚Р° %s \n", sn.buffer_secname.c_str());
+            printf("Фамилия студента %s \n", sn.buffer_secname.c_str());
         }
         sn.buffer_group = group();
         clearScreen();
         if (sn.buffer_group == "0"){
-            printf("Р’РѕР·РІСЂР°С‚ Рє РІС‹Р±РѕСЂСѓ С„Р°РјРёР»РёРё\n");
+            printf("Возврат к выбору фамилии\n");
             continue;
         }
-        printf("РќРѕРјРµСЂ РіСЂСѓРїРїС‹ %s \n", sn.buffer_group.c_str());
+        printf("Номер группы %s \n", sn.buffer_group.c_str());
         sn.buffer_num = groupnum();
         clearScreen();
-        printf("Р—Р°РїРёСЃР°С‚СЊ РґР°РЅРЅС‹Рµ СЃС‚СѓРґРµРЅС‚Р°\n"
+        printf("Записать данные студента\n"
                "| %-12s | %-12s | %-5s|\n"
-               "[Y/N/R РґР»СЏ РІС‹С…РѕРґР° РІ РјРµРЅСЋ]\n",
+               "[Y/N/R для выхода в меню]\n",
                sn.buffer_secname.c_str(), sn.buffer_group.c_str(), sn.buffer_num.c_str());
         int k = ynr();
 	clearScreen();
         if (k == 1) {
             fprintf(file, "| %-12s | %-12s | %-5s |\n", sn.buffer_secname.c_str(),
                     sn.buffer_group.c_str(), sn.buffer_num.c_str());
-            printf("Р”Р°РЅРЅС‹Рµ СѓСЃРїРµС€РЅРѕ Р·Р°РїРёСЃР°РЅС‹!\n");
+            printf("Данные успешно записаны!\n");
         }
         else if (k == 2) {
             file_exit = 1;
@@ -119,10 +119,10 @@ void secname() {
 }
 
 void password() {
-    printf("Р’С‹Р±РµСЂРёС‚Рµ С„Р°Р№Р» РїР°СЂРѕР»РµР№\n");
+    printf("Выберите файл паролей\n");
     FILE *file = makefile();
     if (!file){
-        printf("\033[1;31mРћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°!\n\033[0m");
+        printf("\033[1;31mОшибка открытия файла!\n\033[0m");
         //menu();
         return;
     }
@@ -144,27 +144,27 @@ void password() {
         }
         else {
             clearScreen();
-            printf("РџР°СЂРѕР»СЊ СЃС‚СѓРґРµРЅС‚Р° %s \n", pw.buffer_password.c_str());
+            printf("Пароль студента %s \n", pw.buffer_password.c_str());
         }
         pw.buffer_group = group();
         clearScreen();
         if (pw.buffer_group == "0"){
-            printf("Р’РѕР·РІСЂР°С‚ Рє РІС‹Р±РѕСЂСѓ РїР°СЂРѕР»СЏ");
+            printf("Возврат к выбору пароля");
             continue;
         }
-        printf("РќРѕРјРµСЂ РіСЂСѓРїРїС‹ %s \n", pw.buffer_group.c_str());
+        printf("Номер группы %s \n", pw.buffer_group.c_str());
         pw.buffer_num = groupnum();
         clearScreen();
-        printf("Р—Р°РїРёСЃР°С‚СЊ РґР°РЅРЅС‹Рµ СЃС‚СѓРґРµРЅС‚Р°\n"
+        printf("Записать данные студента\n"
                "| %-20s | %-12s | %-5s|\n"
-               "[Y/N/R РґР»СЏ РІС‹С…РѕРґР° РІ РјРµРЅСЋ]\n",
+               "[Y/N/R для выхода в меню]\n",
                pw.buffer_password.c_str(), pw.buffer_group.c_str(), pw.buffer_num.c_str());
         int k = ynr();
 	clearScreen();
         if (k == 1) {
             fprintf(file, "| %-20s | %-12s | %-5s |\n", pw.buffer_password.c_str(),
                     pw.buffer_group.c_str(), pw.buffer_num.c_str());
-            printf("Р”Р°РЅРЅС‹Рµ СѓСЃРїРµС€РЅРѕ Р·Р°РїРёСЃР°РЅС‹!\n");
+            printf("Данные успешно записаны!\n");
         }
         else if (k == 2) {
             file_exit = 1;
@@ -183,11 +183,11 @@ int menu() {
     bool k = 0;
     char enter_num;
     while (!k) {
-        printf("Р’С‹Р±РµСЂРёС‚Рµ С‚РёРї РІРІРѕРґР°: \n"
-               "1) Р’РІРѕРґ С„Р°РјРёР»РёРё СЃС‚СѓРґРµРЅС‚Р°; \n"
-               "2) Р’РІРѕРґ РїР°СЂРѕР»СЏ СЃС‚СѓРґРµРЅС‚Р°;\n"
-               "3) РРЅСЃС‚СЂСѓРєС†РёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ;\n"
-               "0) Р—Р°РєСЂС‹С‚СЊ РїСЂРѕРіСЂР°РјРјСѓ.\n"); // Р’ Р±СѓРґСѓС‰РµРј СЃРґРµР»Р°С‚СЊ РїСЂРѕРІРµСЂРєСѓ РѕС€РёР±РѕРє
+        printf("Выберите тип ввода: \n"
+               "1) Ввод фамилии студента; \n"
+               "2) Ввод пароля студента;\n"
+               "3) Инструкция пользователю;\n"
+               "0) Закрыть программу.\n"); // В будущем сделать проверку ошибок
         
         //std::cin >> enter_num;        
         enter_num = _getch();
@@ -195,7 +195,7 @@ int menu() {
         clearScreen();
         //while (getchar() != '\n');
         switch (enter_num) {
-        case '1':     //Р’С‹Р·РѕРІ С„СѓРЅРєС†РёРё Name
+        case '1':     //Вызов функции Name
             secname();
             k = 1;            
             break;
@@ -211,7 +211,7 @@ int menu() {
             k = 1;
             break;
         default:
-            puts("РќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ!!!");
+            puts("Неверный ввод!!!");
             break;
         }
     }
@@ -225,7 +225,7 @@ std::string name() {
     std::string secname;
     clearScreen();
     while (!k) {
-        printf("Р’РІРµРґРёС‚Рµ С„Р°РјРёР»РёСЋ СЃС‚СѓРґРµРЅС‚Р° РёР»Рё 0 РґР»СЏ РІС‹С…РѕРґР° РІ РјРµРЅСЋ \n");
+        printf("Введите фамилию студента или 0 для выхода в меню \n");
         c_secname[0] = '\0';
         fgets(c_secname, char_length - 1, stdin);
         clear_n(c_secname);
@@ -240,23 +240,23 @@ std::string name() {
                     break;
                 }                    
                 else if (k == 1 && (i != 0 && !((check_char(secname[i]) || RU_check_char(secname[i]) || check_ref(secname[i], '-') || check_ref(secname[i], '_') || check_ref(secname[i], '\''))))) {
-                    printf("Р”РѕРїСѓСЃС‚РёРјС‹ С‚РѕР»СЊРєРѕ РјР°Р»РµРЅСЊРєРёРµ Р±СѓРєРІС‹ Рё Р·РЅР°РєРё -, _, ' \n");
+                    printf("Допустимы только маленькие буквы и знаки -, _, ' \n");
                     k = 0;
                 }
             }
             if (!k){
                 printf("\033[1;31m%s\033[0m\n"
-                       "Р’С‹ СѓРІРµСЂРµРЅС‹ РІ РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё РІРІРѕРґР°?\n"
+                       "Вы уверены в правильности ввода?\n"
                        "[Y/N]\n", secname.c_str());
                 k = yorn();
                 clearScreen();
             }
             if (!(check_first_char(secname[0]) || RU_check_first_char(secname[0]) && k == 1)) {
-                printf("Р¤Р°РјРёР»РёСЏ РґРѕР»Р¶РЅР° РЅР°С‡РёРЅР°С‚СЊСЃСЏ РЅР° Р·Р°РіР»Р°РІРЅСѓСЋ Р±СѓРєРІСѓ,\n");
-                if (check_char(secname[0]) || RU_check_char(secname[0])) {
+                printf("Фамилия должна начинаться на заглавную букву,\n");
+                if (check_char(secname[0])) {
                     b_secname = secname;
                     b_secname[0] -= Aa;
-                    printf("Р’С‹ РёРјРµР»Рё РІРІРёРґСѓ %s?\n"
+                    printf("Вы имели ввиду %s?\n"
                            "[Y/N]\n",
                            b_secname.c_str());
                     k = yorn();
@@ -283,8 +283,8 @@ std::string group() {
     bool correct_name = 0;
     std::string name;
     while (!correct_name) {
-        printf("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РіСЂСѓРїРїС‹ С„РѕСЂРјР°С‚Р° M7O-206BV-24 \n"
-            "Р’С‹ РјРѕР¶РµС‚Рµ РІРІРµСЃС‚Рё _ РґР»СЏ РѕСЃС‚Р°РІР»РµРЅРёСЏ СЃС‚СЂРѕРєРё РїСѓСЃС‚РѕР№ РёР»Рё 0 РґР»СЏ РІРѕР·РІСЂР°С‚Р° РЅР°Р·Р°Рґ\n");
+        printf("Введите номер группы формата M7O-206BV-24 \n"
+            "Вы можете ввести _ для оставления строки пустой или 0 для возврата назад\n");
         fgets(c_name, char_length - 1, stdin);
         clear_n(c_name);
         clearScreen();
@@ -307,7 +307,7 @@ std::string groupnum(){
     bool correct = 0;
     while (!correct) {
         correct = 1;
-        printf("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СѓС‡РµРЅРёРєР° РІ РіСЂСѓРїРїРµ РёР»Рё _ РґР»СЏ РѕСЃС‚Р°РІР»РµРЅРёСЏ СЃС‚СЂРѕРєРё РїСѓСЃС‚РѕР№\n");
+        printf("Введите номер ученика в группе или _ для оставления строки пустой\n");
         fgets(c_num, char_length - 1, stdin);
         clear_n(c_num);
         clearScreen();
@@ -317,7 +317,7 @@ std::string groupnum(){
                 return "";
             }
             if (check_ref(num[0], '-')) {
-                printf("Р§РёСЃР»Рѕ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рј\n");
+                printf("Число должно быть положительным\n");
                 correct = 0;
                 continue;
             }
@@ -327,7 +327,7 @@ std::string groupnum(){
                 }
             }
             if (correct == 0) {
-                printf("Р’С‹ РґРѕР»Р¶РЅС‹ РІРІРµСЃС‚Рё С‡РёСЃР»Рѕ\n");
+                printf("Вы должны ввести число\n");
             }   
         }
         else correct = 0;
@@ -340,25 +340,25 @@ std::string enter_password(){
     std::string pass;
     bool correct = 0;
     while (!correct) {
-        bool devmod = 0; // РџСЂРё РІРІРѕРґРµ 1-Рј СЃРёРјРІРѕР»РѕРј РїСЂРѕР±РµР» РїСЂРѕРіСЂР°РјРјР° РЅРµ РїСЂРѕРІРµСЂСЏРµС‚ РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ РЅР°РїРёСЃР°РЅРёСЏ РїР°СЂРѕР»СЏ
+        bool devmod = 0; // При вводе 1-м символом пробел программа не проверяет правильность написания пароля
         correct = 0;
-        printf("Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ СЃС‚СѓРґРµРЅС‚Р°\n"
-               "РџР°СЂРѕР»СЊ РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ РЅРµ РјРµРЅРµРµ 8 СЃРёРјРІРѕР»РѕРІ Рё РЅРµ Р±РѕР»РµРµ 20 СЃРёРјРІРѕР»РѕРІ\n"
-               "РџР°СЂРѕР»СЊ РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ С…РѕС‚СЏ Р±С‹ РѕРґРЅСѓ Р±СѓРєРІСѓ, Р·Р°РіР»Р°РІРЅСѓСЋ Р±СѓРєРІСѓ, "
-               "С†РёС„СЂСѓ Рё СЃРїРµС†РёР°Р»СЊРЅС‹Р№ Р·РЅР°Рє\n"
-               "Р’РІРµРґРёС‚Рµ 0 РґР»СЏ РІРѕР·РІСЂР°С‚Р° РІ РјРµРЅСЋ\n");
+        printf("Введите пароль студента\n"
+               "Пароль должен содержать не менее 8 символов и не более 20 символов\n"
+               "Пароль должен содержать хотя бы одну букву, заглавную букву, "
+               "цифру и специальный знак\n"
+               "Введите 0 для возврата в меню\n");
         if (fgets(c_pass, pass_length + 1, stdin) == NULL) {
-            printf("РћС€РёР±РєР° РІРІРѕРґР°\n");
+            printf("Ошибка ввода\n");
             continue;
         }
                 clear_n(c_pass);             
         pass = c_pass;
-        if (pass[0] == ' ') {    // "РђРІР°СЂРёР№РЅС‹Р№ СЂРµР¶РёРј" РІРІРѕРґ Р»СЋР±РѕР№ СЃС‚СЂРѕРєРё
+        if (pass[0] == ' ') {    // "Аварийный режим" ввод любой строки
             devmod = 1;
             for (int i = 1; i <= pass.length(); i++){
                 pass[i-1] = pass[i];
             }
-            printf("Р’С‹ РІРІРµР»Рё РїР°СЂРѕР»СЊ %s РІС‹С…РѕС‚РёС‚Рµ РїСЂРѕРґРѕР»Р¶РёС‚СЊ?\n"
+            printf("Вы ввели пароль %s выхотите продолжить?\n"
                    "[Y/N]\n",
                    pass.c_str());
             correct = yorn();
@@ -373,16 +373,16 @@ std::string enter_password(){
         }
         if (pass == "0"){
             clearScreen();
-            printf("Р’РѕР·РІСЂР°С‚ РІ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ");
+            printf("Возврат в главное меню");
             return "0";
         }
         if (pass.length() <= 8) {
             //clearScreen();
-            printf ("\033[1;31m%s РџР°СЂРѕР»СЊ РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ РЅРµ РјРµРЅРµРµ 8 СЃРёРјРІРѕР»РѕРІ\033[0m\n", pass.c_str());
+            printf ("\033[1;31m%s Пароль должен содержать не менее 8 символов\033[0m\n", pass.c_str());
             continue;
         } else if (pass.length() == pass_length) {
-            printf("\033[1;31m%s РџР°СЂРѕР»СЊ РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ РЅРµ Р±РѕР»РµРµ 20 "
-                   "СЃРёРјРІРѕР»РѕРІ\033[0m\n",
+            printf("\033[1;31m%s Пароль должен содержать не более 20 "
+                   "символов\033[0m\n",
                    pass.c_str());
             while(getchar() != '\n');
             continue;
@@ -405,10 +405,10 @@ std::string enter_password(){
                 pc.special = 1;
             else {
                 clearScreen();
-                printf("\033[1;31mРљР°РєР°СЏ-С‚Рѕ РѕС€Р±РёРєР°(\n"
-                       "РџР°СЂРѕР»СЊ %s"
-                       "РїСЂРѕР±РµР»РµРјР° СЃ СЃРёРјРІРѕР»РѕРј %d СЃРёРјРІРѕР» %c\n"
-                       "Р’РІРµРґРёС‚Рµ РїСЂР°РІРёР»СЊРЅС‹Р№ РїР°СЂРѕР»СЊ\033[0m\n",
+                printf("\033[1;31mКакая-то ошбика(\n"
+                       "Пароль %s"
+                       "пробелема с символом %d символ %c\n"
+                       "Введите правильный пароль\033[0m\n",
                        pass.c_str(), i, pass[i]);
                 continue;
             }
@@ -420,16 +420,16 @@ std::string enter_password(){
             printf("\033[1;31m%s\n", pass.c_str());
             correct = 0;
             if (pc.capital == false)
-                printf("РџР°СЂРѕР»СЊ РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ Р·Р°РіР»Р°РІРЅС‹Рµ Р±СѓРєРІС‹\n");
+                printf("Пароль должен содержать заглавные буквы\n");
             if (pc.general == false)
-                printf("РџР°СЂРѕР»СЊ РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ Р±СѓРєРІС‹\n");
+                printf("Пароль должен содержать буквы\n");
             if (pc.integer == false)
-                printf("РџР°СЂРѕР»СЊ РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ С†РёС„СЂСѓ\n");
+                printf("Пароль должен содержать цифру\n");
             if (pc.special == false)
-                printf("РџР°СЂРѕР»СЊ РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ СЃРїРµС†РёР°Р»СЊРЅС‹Р№ Р·РЅР°Рє\n");
+                printf("Пароль должен содержать специальный знак\n");
             if (!(pc.capital || pc.general || pc.special || pc.integer))
-                printf("Р§СѓРјР±Р° РїСЂРѕРІРµСЂСЊ РєР»Р°РІРёР°С‚СѓСЂСѓ, РІРѕР·РјРѕР¶РЅРѕ С‚С‹ РїРёС€РµС€СЊ РЅРµ РЅР° "
-                       "Р°РЅРіР»РёР№СЃРєРѕРј\n");
+                printf("Чумба проверь клавиатуру, возможно ты пишешь не на "
+                       "английском\n");
             printf("\033[0m");
         }
     }
@@ -437,28 +437,23 @@ std::string enter_password(){
 }
 
 void instruction() {
-    std::ifstream file("instruction.md"); // РїСЂРѕР±СѓРµРј С‚РµРєСѓС‰СѓСЋ РїР°РїРєСѓ exe
+    const size_t width = char_length;
+    char line[256];
+
+    FILE* file = fopen("instruction.md", "r");
     if (!file) {
-        file.open("../../instruction.md"); // РїСЂРѕР±СѓРµРј РєРѕСЂРµРЅСЊ РїСЂРѕРµРєС‚Р°
-        if (!file) {
-            std::cout << "РћС€РёР±РєР°: С„Р°Р№Р» instruction.md РЅРµ РЅР°Р№РґРµРЅ!\n";
-            _getch();
-            return;
-        }
+        printf("Ошибка: файл instruction.md не найден!\n");
+        _getch();
+        return;
     }
 
-    std::string line;
-    const size_t width = char_length; 
-    while (std::getline(file, line)) {
-        size_t pos = 0;
-        while (pos < line.length()) {
-            std::cout << line.substr(pos, width) << "\n";
-            pos += width;
-        }
+    while (fgets(line, width, file) != NULL) {
+        printf("%s", line);
     }
 
-    file.close();
-    std::cout << "\nРќР°Р¶РјРёС‚Рµ Р»СЋР±СѓСЋ РєР»Р°РІРёС€Сѓ РґР»СЏ РІРѕР·РІСЂР°С‚Р° РІ РјРµРЅСЋ...\n";
+    fclose(file);
+
+    printf("\nНажмите любую клавишу для возврата в меню...\n");
     _getch();
     clearScreen();
 }

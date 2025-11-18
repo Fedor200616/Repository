@@ -32,7 +32,7 @@ bool check_ref(char c, char ref) {
 
 void clearScreen() {
     //printf("\033[2J\033[3H");
-    //system("cls");
+    system("cls");
 }
 
 void clear_n(char* str) { str[strcspn(str, "\n")] = '\0'; }
@@ -54,7 +54,7 @@ bool yorn() {
             return false;
             break;
         default:
-            printf("РќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ, РґРѕРїСѓСЃС‚РёРјРѕ С‚РѕР»СЊРєРѕ Y РёР»Рё N\n");
+            printf("Неверный ввод, допустимо только Y или N\n");
             break;
         }
     }        
@@ -83,13 +83,13 @@ int ynr(){
             return 2;
             break;
         default:
-	        printf("РќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ %c, РґРѕРїСѓСЃС‚РёРјРѕ С‚РѕР»СЊРєРѕ Y,N,R\n", ch);
+	        printf("Неверный ввод %c, допустимо только Y,N,R\n", ch);
 	        break;
         }
     }        
 }
 
-bool filename_check(std::string* name) {    //Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂСЏРµС‚ РІРІРµРґРµРЅРЅРѕРµ РёРјСЏ С„Р°Р№Р»Р°
+bool filename_check(std::string* name) {    //Функция проверяет введенное имя файла
     int size = name->length();
     for (int i = 0; i < size; i++) {
         //char c = (*name)[i];
@@ -97,11 +97,11 @@ bool filename_check(std::string* name) {    //Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂСЏРµС‚ 
             check_is_int((*name)[i]) || check_ref((*name)[i], '_') || check_ref((*name)[i], '.') || check_ref((*name)[i], '-')) {
         }
         else {
-            printf("\033[1;31mРќР°Р·РІР°РЅРёРµ РґРѕР»Р¶РЅРѕ СЃРѕРґРµСЂР¶Р°С‚СЊ С‚РѕР»СЊРєРѕ С†РёС„СЂС‹, Р»Р°С‚РёРЅРёС†Сѓ Рё Р·РЅР°Рє '_' \033[0m \n");
+            printf("\033[1;31mНазвание должно содержать только цифры, латиницу и знак '_' \033[0m \n");
             return 0;
         }
     }
-    if (size > 4 && (*name).substr((*name).size() - 4) == ".txt") return true;     //Р”РѕР±Р°РІР»СЏРµРј .txt, РµСЃР»Рё РµРµ РЅРµ РІРІРµР» РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ
+    if (size > 4 && (*name).substr((*name).size() - 4) == ".txt") return true;     //Добавляем .txt, если ее не ввел пользователь
     else {
         *name += ".txt";
         return 1;
@@ -132,7 +132,7 @@ bool check_group(std::string name) {
       
     }
     if (!correct_name) {
-        printf("РќРѕРјРµСЂ РіСЂСѓРїРїС‹ : %s\n Р’РІРµРґРµРЅРѕ РІРµСЂРЅРѕ? [Y/N]\n", name.c_str());
+        printf("Номер группы : %s\n Введено верно? [Y/N]\n", name.c_str());
         correct_name = yorn();
         clearScreen();
     }
@@ -140,22 +140,16 @@ bool check_group(std::string name) {
 }
 
 //#ifdef _WIN_
-bool RU_check_first_char(char c) {
-	for (int i = 0; i < strlen(RU_AZ); i++) {
-		if (c == RU_AZ[i]) {
-			return 1;
-		}
-	}
-    return 0;
+bool RU_check_first_char(unsigned char c) {
+    if (c >= L'A' && c <= L'Я')
+        return 1;
+    else return 0;
 	//return 1;
 }
-bool RU_check_char(char c) {
-	for (int i = 0; i < strlen(RU_az); i++) {
-		if (c == RU_az[i]) {
-			return 1;
-		}
-	}
-	return 0;
+bool RU_check_char(unsigned char c) {
+    if (c >= L'а' && c <= L'я')
+        return 1;
+    else return 0;
 }
 
 bool is_txt(const std::string& filename) {
