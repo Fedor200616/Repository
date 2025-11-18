@@ -19,14 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Desktop\Laba\function.cpp" />
-    <ClCompile Include="..\..\..\..\Desktop\Laba\Laba.cpp" />
-    <ClCompile Include="..\..\..\..\Desktop\Laba\utility.cpp" />
+    <Text Include="Instruction.txt" />
+    <Text Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Desktop\Laba\function.h" />
-    <ClInclude Include="..\..\..\..\Desktop\Laba\Laba.h" />
-    <ClInclude Include="..\..\..\..\Desktop\Laba\utility.h" />
+    <None Include="instruction.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="function.cpp" />
+    <ClCompile Include="Laba.cpp" />
+    <ClCompile Include="utility.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="function.h" />
+    <ClInclude Include="Laba.h" />
+    <ClInclude Include="utility.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -114,8 +121,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp14</LanguageStandard>
-      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

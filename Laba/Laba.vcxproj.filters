@@ -15,24 +15,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Desktop\Laba\function.cpp">
+    <Text Include="README.txt" />
+    <Text Include="Instruction.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="instruction.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="function.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Desktop\Laba\Laba.cpp">
+    <ClCompile Include="Laba.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Desktop\Laba\utility.cpp">
+    <ClCompile Include="utility.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Desktop\Laba\function.h">
+    <ClInclude Include="function.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Desktop\Laba\Laba.h">
+    <ClInclude Include="Laba.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Desktop\Laba\utility.h">
+    <ClInclude Include="utility.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
