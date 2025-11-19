@@ -39,7 +39,7 @@ void clear_n(char* str) { str[strcspn(str, "\n")] = '\0'; }
 
 bool yorn() {
     bool k;
-    char yesno;
+    unsigned char yesno;
     while (true) {
         yesno = _getch();
         printf("\n");
@@ -47,10 +47,14 @@ bool yorn() {
         switch(yesno){
         case 'y':
         case 'Y':
+        case 'н':
+        case 'Н':
             return true;
             break;
         case 'n':
         case 'N':
+        case 'т':
+        case 'Т':
             return false;
             break;
         default:
@@ -72,18 +76,26 @@ int ynrs(){
         switch(ch){
         case 'n':
         case 'N':
+        case 'т':
+        case 'Т':
             return 0;
             break;
 	    case 'y':
         case 'Y':
+        case 'н':
+        case 'Н':
             return 1;
             break;
         case 'r':
         case 'R':
+        case 'к':
+        case 'К':
             return 2;
             break;
         case 's':
         case 'S':
+        case 'ы':
+        case 'Ы':
             return 3;
             break;
         default:
@@ -97,11 +109,11 @@ bool filename_check(std::string* name) {    //Функция проверяет 
     int size = name->length();
     for (int i = 0; i < size; i++) {
         //char c = (*name)[i];
-        if (check_first_char((*name)[i]) || check_char((*name)[i]) ||
+        if (check_first_char((*name)[i]) || check_char((*name)[i]) || RU_check_first_char((*name)[i]) || RU_check_char((*name)[i]) ||
             check_is_int((*name)[i]) || check_ref((*name)[i], '_') || check_ref((*name)[i], '.') || check_ref((*name)[i], '-')) {
         }
         else {
-            printf("\033[1;31mНазвание должно содержать только цифры, латиницу и знак '_' \033[0m \n");
+            printf("\033[1;31mНазвание должно содержать только цифры, буквы и знаки '_' '.' '-' \033[0m \n");
             return 0;
         }
     }
@@ -116,10 +128,7 @@ bool check_group(std::string name) {
     bool correct_name = 1;
     int i_char = 0;
     if (name.length() == 1){
-        if (check_ref(name[0], '_') || check_ref(name[0], ' ') || check_ref(name[0], '\0')){
-            return 1;
-        }
-        else if (check_ref(name[0], '0')){
+        if (check_ref(name[0], '_') || check_ref(name[0], '\0')){
             return 1;
         }
     }
@@ -127,6 +136,10 @@ bool check_group(std::string name) {
         if (check_first_char(name[i]))
             ;
         else if (check_char(name[i]))
+            ;
+        else if (RU_check_first_char(name[i]))
+            ;
+        else if (RU_check_char(name[i]))
             ;
         else if (check_is_int(name[i]))
             ;
@@ -143,7 +156,6 @@ bool check_group(std::string name) {
     return correct_name;
 }
 
-//#ifdef _WIN_
 bool RU_check_first_char(unsigned char c) {
 	//printf("%c : %d\n", c, c); // debug
     if (c >= 192 && c <= 222 || c == 168)
@@ -151,6 +163,7 @@ bool RU_check_first_char(unsigned char c) {
     else return 0;
 	//return 1;
 }
+
 bool RU_check_char(unsigned char c) {
     //printf("%c : %d\n", c, c); //debug
     if (c >= 223 && c <= 255 || c == 184)
