@@ -1,10 +1,11 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+﻿#include <pthread.h>
+#define _CRT_SECURE_NO_WARNINGS
 #include "Laba.h"
 #include "function.h"
 #include "utility.h"
 
-#include <codecvt>
-#include <cwctype>
+//#include <codecvt>
+//#include <cwctype>
 
 
 FILE* makefile() {     //Основная функция для работы с файлом с фамилиями
@@ -75,37 +76,50 @@ void secname() {
     
     bool file_exit = 0;
     while (!file_exit) {
-        sn.buffer_secname = name();
-        if (sn.buffer_secname == "0") {
-            file_exit = 1;
-            clearScreen();
-            fclose(file);
-            //menu();
-            return;
-        }
-        else {
-            clearScreen();
-            printf("Фамилия студента %s \n", sn.buffer_secname.c_str());
-        }
-        sn.buffer_group = group();
-        clearScreen();
-        if (sn.buffer_group == "0"){
-            printf("Возврат к выбору фамилии\n");
-            continue;
-        }
-        printf("Номер группы %s \n", sn.buffer_group.c_str());
-        sn.buffer_num = groupnum();
-        clearScreen();
+        while (true){
+            sn.buffer_secname = name();
+            if (sn.buffer_secname == "0") {
+                file_exit = 1;
+                clearScreen();
+                fclose(file);
+                //menu();
+                return;
+            }
+            else {
+                clearScreen();
+                printf("Фамилия студента %s \n", sn.buffer_secname.c_str());
+            }
+            while (true){
+                sn.buffer_group = group();
+                clearScreen();
+                if (sn.buffer_group == "0"){
+                    printf("Возврат к выбору фамилии\n");
+                    break;
+                }
+                printf("Номер группы %s \n", sn.buffer_group.c_str());
+                while (true){
+                    sn.buffer_num = groupnum();
+                    clearScreen();
+                    if (sn.buffer_num == "0") {
+                        printf("Возврат к выбору группы");
+                        break;
+                    }
+                }
+            }
+        }            
         printf("Записать данные студента\n"
                "| %-12s | %-12s | %-5s|\n"
                "[Y/N/R для выхода в меню]\n",
                sn.buffer_secname.c_str(), sn.buffer_group.c_str(), sn.buffer_num.c_str());
-        int k = ynr();
+        int k = ynrs();
 	clearScreen();
-        if (k == 1) {
+        if (k == 1 || k == 3) {
             fprintf(file, "| %-12s | %-12s | %-5s |\n", sn.buffer_secname.c_str(),
                     sn.buffer_group.c_str(), sn.buffer_num.c_str());
             printf("Данные успешно записаны!\n");
+            file_exit = 1;
+            fclose(file);
+            return;
         }
         else if (k == 2) {
             file_exit = 1;
@@ -133,38 +147,51 @@ void password() {
     };
     struct Password_struct pw;
     int file_exit = 0;
-    while(!file_exit){
-        pw.buffer_password = enter_password();
-        if (pw.buffer_password == "0") {
-            file_exit = 1;
-            clearScreen();
-            fclose(file);
-            //menu();
-            return;
+    while (!file_exit) {
+        while (true){      
+            pw.buffer_password = enter_password();
+            if (pw.buffer_password == "0") {
+                file_exit = 1;
+                clearScreen();
+                fclose(file);
+                //menu();
+                return;
+            }
+            else {
+                clearScreen();
+                printf("Пароль студента %s \n", pw.buffer_password.c_str());
+            }
+            while (true){
+                pw.buffer_group = group();
+                clearScreen();
+                if (pw.buffer_group == "0"){
+                    printf("Возврат к выбору пароля");
+                    break;
+                }
+                printf("Номер группы %s \n", pw.buffer_group.c_str());
+                while (true){
+                    pw.buffer_num = groupnum();
+                    clearScreen();
+                    if (pw.buffer_num == "0"){
+                        printf("Возврат к выбору группы");
+                        break;
+                    }
+                }
+            }
         }
-        else {
-            clearScreen();
-            printf("Пароль студента %s \n", pw.buffer_password.c_str());
-        }
-        pw.buffer_group = group();
-        clearScreen();
-        if (pw.buffer_group == "0"){
-            printf("Возврат к выбору пароля");
-            continue;
-        }
-        printf("Номер группы %s \n", pw.buffer_group.c_str());
-        pw.buffer_num = groupnum();
-        clearScreen();
         printf("Записать данные студента\n"
                "| %-20s | %-12s | %-5s|\n"
                "[Y/N/R для выхода в меню]\n",
                pw.buffer_password.c_str(), pw.buffer_group.c_str(), pw.buffer_num.c_str());
-        int k = ynr();
+        int k = ynrs();
 	clearScreen();
-        if (k == 1) {
+        if (k == 1 || k == 3) {
             fprintf(file, "| %-20s | %-12s | %-5s |\n", pw.buffer_password.c_str(),
                     pw.buffer_group.c_str(), pw.buffer_num.c_str());
             printf("Данные успешно записаны!\n");
+            file_exit = 1;
+            fclose(file);
+            return;
         }
         else if (k == 2) {
             file_exit = 1;
@@ -313,6 +340,9 @@ std::string groupnum(){
         clearScreen();
         if (c_num[0] != '\0') {
             num = c_num;
+            if (check_ref(num[0], '0') && num.length() == 1) {
+                return "0";
+            }
             if (check_ref(num[0], '_') && num.length() == 1) {
                 return "";
             }

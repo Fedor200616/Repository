@@ -62,7 +62,7 @@ bool yorn() {
     return k;
 }
 
-int ynr(){
+int ynrs(){
     bool o = 0;
     char ch;
     while (true){
@@ -81,6 +81,10 @@ int ynr(){
         case 'r':
         case 'R':
             return 2;
+            break;
+        case 's':
+        case 'S':
+            return 3;
             break;
         default:
 	        printf("Неверный ввод %c, допустимо только Y,N,R\n", ch);
