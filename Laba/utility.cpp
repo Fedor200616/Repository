@@ -171,8 +171,3 @@ bool RU_check_char(unsigned char c) {
     else return 0;
 }
 
-bool is_txt(const std::string& filename) {
-	const std::string ext = ".txt";
-	if (filename.size() < ext.size()) return false;
-	return filename.substr(filename.size() - ext.size()) == ext;
-}   

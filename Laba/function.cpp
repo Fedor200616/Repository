@@ -11,21 +11,24 @@ FILE* makefile() {     //Основная функция для работы с 
     std::string path = "myfiles";
     
     while (check_true == 0) {    // Выводим в cmd файлы с расширением .txt
+        if (!std::filesystem::exists(path)) {
+            try {
+                if (std::filesystem::create_directory(path)) {
+                    std::cout << "Папка 'myfiles' успешно создана!\n" << std::endl;
+                }
+            }
+            catch (const std::filesystem::filesystem_error& e) {
+                std::cout << "Ошибка создания папки: \n" << e.what() << std::endl;
+                return nullptr;
+            }
+        }
         printf("Доступные файлы:\n");
-		WIN32_FIND_DATAA fileData;
-        HANDLE hFind = FindFirstFileA((path + "\\*.txt").c_str(), &fileData);
-        //if (hFind == INVALID_HANDLE_VALUE) {
-        //    printf("\033[1;31mНе удалось открыть директорию\033[0m\n");
-        //    return nullptr;
-        //}
-		do {
-			std::string fname = fileData.cFileName;
-            if (!(fileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-				if (is_txt(fname))
-				    printf("%s\n", fname.c_str());
-			}
-		} while (FindNextFileA(hFind, &fileData));
-        FindClose(hFind);
+
+        for (const auto& entry : std::filesystem::directory_iterator(path)) {
+            if (entry.path().extension() == ".txt") {
+                printf("%s \n", entry.path().filename().string().c_str());
+            }
+        }
         printf("===============================================\n");
 
         printf("Введите название .txt файла:\n");    // Пользователь вводит имя его файла, мы его проверяем и создаем файл с его именен
@@ -367,17 +370,17 @@ std::string groupnum(){
 }
 
 std::string enter_password(){
-    char c_pass[pass_length + 1];
+    char c_pass[char_length];
     std::string pass;
     bool correct = 0;
     while (!correct) {
         bool devmod = 0; // При вводе 1-м символом пробел программа не проверяет правильность написания пароля
         correct = 0;
         printf("Введите пароль студента\n"
-               "Пароль должен содержать не менее 8 символов и не более 20 символов\n"
+               "Пароль должен содержать не менее 8 символов и не более %d символов\n"
                "Пароль должен содержать хотя бы одну букву, заглавную букву, "
                "цифру и специальный знак\n"
-               "Введите 0 для возврата в меню\n");
+               "Введите 0 для возврата в меню\n", pass_length);
         if (fgets(c_pass, pass_length + 1, stdin) == NULL) {
             printf("Ошибка ввода\n");
             continue;
@@ -407,14 +410,14 @@ std::string enter_password(){
             printf("Возврат в главное меню");
             return "0";
         }
-        if (pass.length() <= 8) {
+        if (pass.length() < 8) {
             //clearScreen();
             printf ("\033[1;31m%s Пароль должен содержать не менее 8 символов\033[0m\n", pass.c_str());
             continue;
         } else if (pass.length() == pass_length) {
-            printf("\033[1;31m%s Пароль должен содержать не более 20 "
+            printf("\033[1;31m%s Пароль должен содержать не более %d "
                    "символов\033[0m\n",
-                   pass.c_str());
+                   pass.c_str(), pass_length);
             while(getchar() != '\n');
             continue;
         }
@@ -474,6 +477,7 @@ void instruction() {
     FILE* file = fopen("instruction.md", "r");
     if (!file) {
         printf("Ошибка: файл instruction.md не найден!\n");
+        printf("Нажмите любую клавишу для возврата в меню...\n");
         _getch();
         return;
     }

@@ -10,8 +10,6 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 //utility.cpp
-const char RU_AZ[] = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-const char RU_az[] = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
 bool check_first_char(char c); // Выводит 1 если буква заглавная, или ноль
 bool check_char(char c); // Ввыводит 1 если символ - маленькая буква
@@ -20,13 +18,12 @@ bool check_ref(char c, char ref); // Проверяет 1 аргумент со 
 void clearScreen(); // Очистка экрана
 void clear_n(char* str); // Убирает \n из строки
 bool yorn(); // Функция вопроса у пользователья Да или нет, выводит 1 при Y и 0 при N
-int ynrs(); // Функция ответа на вопрос Нет/Да/Вернуться , выводит 0 на N, 1 - Y,
-           // 2 - R
+int ynrs(); // Функция ответа на вопрос Нет/Да/Вернуться/Вернуться с сохранением , выводит 0 на N, 1 - Y,
+           // 2 - R 3 - S
 bool filename_check(std::string* name); // Проверяет имя файла на ссответсвие требованиям
 bool check_group(std::string name); // Нужна только для group Проверяет
                                     // соответсвие типовому имени группы
 bool RU_check_first_char(unsigned char c); // Выводит 1 если буква - русская заглавная, или ноль
 bool RU_check_char(unsigned char c); // Ввыводит 1 если символ - маленькая русская буква
-bool is_txt(const std::string& filename); // Проверяет расширение файла на .txt
 
 #endif
