@@ -8,7 +8,6 @@
 
 #ifndef UTILITY_H
 #define UTILITY_H
-//utility.cpp
 
 bool check_first_char(char c); // Выводит 1 если буква заглавная, или ноль
 bool check_char(char c); // Ввыводит 1 если символ - маленькая буква
